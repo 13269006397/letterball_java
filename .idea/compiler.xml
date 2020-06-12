@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="letterball_article" />
+        <module name="letterball_base" />
+        <module name="letterball_common" />
+        <module name="letterball_qa" />
+        <module name="letterball_recruit" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="letterball_article" options="-parameters" />
+      <module name="letterball_base" options="-parameters" />
+      <module name="letterball_common" options="-parameters" />
+      <module name="letterball_qa" options="-parameters" />
+      <module name="letterball_recruit" options="-parameters" />
+    </option>
+  </component>
+</project>

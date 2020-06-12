@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.letterball.mapper.ProblemLabelMapper" >
+  <resultMap id="BaseResultMap" type="com.letterball.entity.ProblemLabel" >
+
+    <id column="problemid" property="problemid" jdbcType="VARCHAR" />
+    <id column="labelid" property="labelid" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.letterball.entity.ProblemLabel" >
+    delete from tb_pl
+    where problemid = #{problemid,jdbcType=VARCHAR}
+      and labelid = #{labelid,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.letterball.entity.ProblemLabel" >
+    insert into tb_pl (problemid, labelid)
+    values (#{problemid,jdbcType=VARCHAR}, #{labelid,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.letterball.entity.ProblemLabel" >
+    insert into tb_pl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="problemid != null" >
+        problemid,
+      </if>
+      <if test="labelid != null" >
+        labelid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="problemid != null" >
+        #{problemid,jdbcType=VARCHAR},
+      </if>
+      <if test="labelid != null" >
+        #{labelid,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+</mapper>

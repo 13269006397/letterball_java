@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.letterball.mapper.LabelMapper" >
+  <resultMap id="BaseResultMap" type="com.letterball.entity.Label" >
+
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="LABEL_NAME" property="labelName" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="COUNT" property="count" jdbcType="BIGINT" />
+    <result column="RECOMMEND" property="recommend" jdbcType="VARCHAR" />
+    <result column="FANS" property="fans" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, LABEL_NAME, STATE, COUNT, RECOMMEND, FANS
+  </sql>
+
+  <!--查询所有标签-->
+  <select id="selectAllLabel" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from tb_label
+  </select>
+
+  <!--根据Id查询标签-->
+  <select id="findLabelById" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_label
+    where 1=1
+    <if test="id != null" >
+      and ID = #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!--条件查询-->
+  <select id="findSearch" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_label
+    where 1=1
+    <if test="labelName != null" >
+      and LABEL_NAME like "%"#{labelName}"%"
+    </if>
+    <if test="state != null" >
+      and STATE = #{state,jdbcType=VARCHAR}
+    </if>
+    <if test="recommend != null" >
+      and RECOMMEND = #{recommend,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <!--删除-->
+  <delete id="deleteLabelById" parameterType="java.lang.String" >
+    delete from tb_label
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <!--新增标签-->
+  <insert id="addLabel" parameterType="com.letterball.entity.Label" >
+    insert into tb_label
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="labelName != null" >
+        LABEL_NAME,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="count != null" >
+        COUNT,
+      </if>
+      <if test="recommend != null" >
+        RECOMMEND,
+      </if>
+      <if test="fans != null" >
+        FANS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="labelName != null" >
+        #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=BIGINT},
+      </if>
+      <if test="recommend != null" >
+        #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="fans != null" >
+        #{fans,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+
+  <!--根据Id修改标签-->
+  <update id="updateLabelById" parameterType="com.letterball.entity.Label" >
+
+    update tb_label
+    <set >
+      <if test="labelName != null" >
+        LABEL_NAME = #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        COUNT = #{count,jdbcType=BIGINT},
+      </if>
+      <if test="recommend != null" >
+        RECOMMEND = #{recommend,jdbcType=VARCHAR},
+      </if>
+      <if test="fans != null" >
+        FANS = #{fans,jdbcType=BIGINT},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.letterball.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.letterball.entity.Article" >
+
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="COLUMN_ID" property="columnId" jdbcType="VARCHAR" />
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="TITLE" property="title" jdbcType="VARCHAR" />
+    <result column="IMAGE" property="image" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="IS_PUBLIC" property="isPublic" jdbcType="VARCHAR" />
+    <result column="IS_TOP" property="isTop" jdbcType="VARCHAR" />
+    <result column="VISITS" property="visits" jdbcType="INTEGER" />
+    <result column="THUMBUP" property="thumbup" jdbcType="INTEGER" />
+    <result column="COMMENT" property="comment" jdbcType="INTEGER" />
+    <result column="STATE" property="state" jdbcType="VARCHAR" />
+    <result column="CHANNEL_ID" property="channelId" jdbcType="VARCHAR" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <resultMap id="ResultMapWithBLOBs" type="com.letterball.entity.Article" extends="BaseResultMap" >
+    <result column="CONTENT" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, COLUMN_ID, USER_ID, TITLE, IMAGE, CREATE_TIME, UPDATE_TIME, IS_PUBLIC, IS_TOP,
+    VISITS, THUMBUP, COMMENT, STATE, CHANNEL_ID, URL, TYPE
+  </sql>
+
+  <sql id="Blob_Column_List" >
+    CONTENT
+  </sql>
+
+  <select id="findArticle" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_article
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from tb_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_article
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.letterball.entity.Article" >
+    insert into tb_article (ID, COLUMN_ID, USER_ID,
+      TITLE, IMAGE, CREATE_TIME, 
+      UPDATE_TIME, IS_PUBLIC, IS_TOP, 
+      VISITS, THUMBUP, COMMENT, 
+      STATE, CHANNEL_ID, URL, 
+      TYPE, CONTENT)
+    values (#{id,jdbcType=VARCHAR}, #{columnId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{isPublic,jdbcType=VARCHAR}, #{isTop,jdbcType=VARCHAR}, 
+      #{visits,jdbcType=INTEGER}, #{thumbup,jdbcType=INTEGER}, #{comment,jdbcType=INTEGER}, 
+      #{state,jdbcType=VARCHAR}, #{channelId,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.letterball.entity.Article" >
+    insert into tb_article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="columnId != null" >
+        COLUMN_ID,
+      </if>
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="title != null" >
+        TITLE,
+      </if>
+      <if test="image != null" >
+        IMAGE,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+      <if test="isPublic != null" >
+        IS_PUBLIC,
+      </if>
+      <if test="isTop != null" >
+        IS_TOP,
+      </if>
+      <if test="visits != null" >
+        VISITS,
+      </if>
+      <if test="thumbup != null" >
+        THUMBUP,
+      </if>
+      <if test="comment != null" >
+        COMMENT,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="columnId != null" >
+        #{columnId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublic != null" >
+        #{isPublic,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null" >
+        #{isTop,jdbcType=VARCHAR},
+      </if>
+      <if test="visits != null" >
+        #{visits,jdbcType=INTEGER},
+      </if>
+      <if test="thumbup != null" >
+        #{thumbup,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        #{comment,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <!--审核  点赞 -->
+  <update id="examine" parameterType="map" >
+    update tb_article
+    <set >
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="thumbup != null" >
+        THUMBUP = #{thumbup,jdbcType=INTEGER}
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.letterball.entity.Article" >
+    update tb_article
+    <set >
+      <if test="columnId != null" >
+        COLUMN_ID = #{columnId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        USER_ID = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        TITLE = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        IMAGE = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isPublic != null" >
+        IS_PUBLIC = #{isPublic,jdbcType=VARCHAR},
+      </if>
+      <if test="isTop != null" >
+        IS_TOP = #{isTop,jdbcType=VARCHAR},
+      </if>
+      <if test="visits != null" >
+        VISITS = #{visits,jdbcType=INTEGER},
+      </if>
+      <if test="thumbup != null" >
+        THUMBUP = #{thumbup,jdbcType=INTEGER},
+      </if>
+      <if test="comment != null" >
+        COMMENT = #{comment,jdbcType=INTEGER},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=VARCHAR},
+      </if>
+      <if test="channelId != null" >
+        CHANNEL_ID = #{channelId,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.letterball.entity.Article" >
+    update tb_article
+    set COLUMN_ID = #{columnId,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      IMAGE = #{image,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_PUBLIC = #{isPublic,jdbcType=VARCHAR},
+      IS_TOP = #{isTop,jdbcType=VARCHAR},
+      VISITS = #{visits,jdbcType=INTEGER},
+      THUMBUP = #{thumbup,jdbcType=INTEGER},
+      COMMENT = #{comment,jdbcType=INTEGER},
+      STATE = #{state,jdbcType=VARCHAR},
+      CHANNEL_ID = #{channelId,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      CONTENT = #{content,jdbcType=LONGVARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.letterball.entity.Article" >
+    update tb_article
+    set COLUMN_ID = #{columnId,jdbcType=VARCHAR},
+      USER_ID = #{userId,jdbcType=VARCHAR},
+      TITLE = #{title,jdbcType=VARCHAR},
+      IMAGE = #{image,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      IS_PUBLIC = #{isPublic,jdbcType=VARCHAR},
+      IS_TOP = #{isTop,jdbcType=VARCHAR},
+      VISITS = #{visits,jdbcType=INTEGER},
+      THUMBUP = #{thumbup,jdbcType=INTEGER},
+      COMMENT = #{comment,jdbcType=INTEGER},
+      STATE = #{state,jdbcType=VARCHAR},
+      CHANNEL_ID = #{channelId,jdbcType=VARCHAR},
+      URL = #{url,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

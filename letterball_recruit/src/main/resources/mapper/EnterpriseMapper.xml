@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.letterball.mapper.EnterpriseMapper" >
+  <resultMap id="BaseResultMap" type="com.letterball.entity.Enterprise" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="SUMMARY" property="summary" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="LABELS" property="labels" jdbcType="VARCHAR" />
+    <result column="COORDINATE" property="coordinate" jdbcType="VARCHAR" />
+    <result column="ISHOT" property="ishot" jdbcType="VARCHAR" />
+    <result column="LOGO" property="logo" jdbcType="VARCHAR" />
+    <result column="JOBCOUNT" property="jobcount" jdbcType="INTEGER" />
+    <result column="URL" property="url" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    ID, NAME, SUMMARY, ADDRESS, LABELS, COORDINATE, ISHOT, LOGO, JOBCOUNT, URL
+  </sql>
+
+  <!--查询所有企业-->
+  <select id="findAllEnterprise" resultMap="BaseResultMap" parameterType="map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_enterprise
+    where 1=1
+    <if test="ishot != null" >
+      and ISHOT = #{ishot,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_enterprise
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from tb_enterprise
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="insert" parameterType="com.letterball.entity.Enterprise" >
+    insert into tb_enterprise (ID, NAME, SUMMARY,
+      ADDRESS, LABELS, COORDINATE, 
+      ISHOT, LOGO, JOBCOUNT, 
+      URL)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{summary,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{labels,jdbcType=VARCHAR}, #{coordinate,jdbcType=VARCHAR}, 
+      #{ishot,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, #{jobcount,jdbcType=INTEGER}, 
+      #{url,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.letterball.entity.Enterprise" >
+    insert into tb_enterprise
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="summary != null" >
+        SUMMARY,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="labels != null" >
+        LABELS,
+      </if>
+      <if test="coordinate != null" >
+        COORDINATE,
+      </if>
+      <if test="ishot != null" >
+        ISHOT,
+      </if>
+      <if test="logo != null" >
+        LOGO,
+      </if>
+      <if test="jobcount != null" >
+        JOBCOUNT,
+      </if>
+      <if test="url != null" >
+        URL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="labels != null" >
+        #{labels,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null" >
+        #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="ishot != null" >
+        #{ishot,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="jobcount != null" >
+        #{jobcount,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.letterball.entity.Enterprise" >
+    update tb_enterprise
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="summary != null" >
+        SUMMARY = #{summary,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="labels != null" >
+        LABELS = #{labels,jdbcType=VARCHAR},
+      </if>
+      <if test="coordinate != null" >
+        COORDINATE = #{coordinate,jdbcType=VARCHAR},
+      </if>
+      <if test="ishot != null" >
+        ISHOT = #{ishot,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        LOGO = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="jobcount != null" >
+        JOBCOUNT = #{jobcount,jdbcType=INTEGER},
+      </if>
+      <if test="url != null" >
+        URL = #{url,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.letterball.entity.Enterprise" >
+    update tb_enterprise
+    set NAME = #{name,jdbcType=VARCHAR},
+      SUMMARY = #{summary,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      LABELS = #{labels,jdbcType=VARCHAR},
+      COORDINATE = #{coordinate,jdbcType=VARCHAR},
+      ISHOT = #{ishot,jdbcType=VARCHAR},
+      LOGO = #{logo,jdbcType=VARCHAR},
+      JOBCOUNT = #{jobcount,jdbcType=INTEGER},
+      URL = #{url,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
