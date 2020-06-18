@@ -12,6 +12,7 @@
         <module name="letterball_common" />
         <module name="letterball_qa" />
         <module name="letterball_recruit" />
+        <module name="letterball_user" />
       </profile>
     </annotationProcessing>
   </component>
@@ -22,6 +23,7 @@
       <module name="letterball_common" options="-parameters" />
       <module name="letterball_qa" options="-parameters" />
       <module name="letterball_recruit" options="-parameters" />
+      <module name="letterball_user" options="-parameters" />
     </option>
   </component>
 </project>

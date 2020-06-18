@@ -13,6 +13,7 @@
         <module>letterball_recruit</module>
         <module>letterball_qa</module>
         <module>letterball_article</module>
+        <module>letterball_user</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
