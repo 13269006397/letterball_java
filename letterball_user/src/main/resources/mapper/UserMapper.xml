@@ -24,12 +24,15 @@
     ID, MOBILE, PASSWORD, NICK_NAME, SEX, BIRTHDAY, AVATAR, EMAIL, REG_TIME, UPDATE_TIME, 
     LAST_TIME, ON_LINE, INTEREST, PERSONALITY, FANS_COUNT, FOLLOW_COUNT
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+
+  <!--根据手机号查询用户-->
+  <select id="selectUserByMobile" resultMap="BaseResultMap" parameterType="map" >
     select 
     <include refid="Base_Column_List" />
     from tb_user
-    where ID = #{id,jdbcType=VARCHAR}
+    where MOBILE = #{mobile,jdbcType=VARCHAR}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tb_user
     where ID = #{id,jdbcType=VARCHAR}

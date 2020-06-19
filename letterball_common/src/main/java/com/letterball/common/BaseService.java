@@ -13,7 +13,7 @@ public class BaseService {
     public ResponseBase setResult(Integer code, String msg, Object data){
         ResponseBase responseBase = new ResponseBase();
         responseBase.setCode(code);
-        responseBase.setMessage(msg);
+        responseBase.setMsg(msg);
         if (data != null){
             responseBase.setData(data);
         }
