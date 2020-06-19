@@ -7,6 +7,7 @@ import com.letterball.entity.User;
 import com.letterball.mapper.UserMapper;
 import com.letterball.service.UserService;
 import com.letterball.utils.RedisUtils;
+import com.letterball.utils.TokenUtils;
 import com.letterball.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Resource
     private RedisUtils redisUtils;
+
+    @Resource
+    private TokenUtils tokenUtils;
 
     /**
      * 根据手机号查询用户
@@ -49,6 +53,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public ResponseBase userLogin(UserVO userVO) {
         User user = selectUserByMobile(userVO);
+        HashMap<String, Object> resultParams = new HashMap<>();
         //账号不存在
         if (StringUtils.isEmpty(user)) {
             return setResultError(Constants.ERROR_LOGIN_USER_NAME);
@@ -57,7 +62,10 @@ public class UserServiceImpl extends BaseService implements UserService {
         if (!StringUtils.isEmpty(userVO.getVfCode())) {
             String key = redisUtils.getKey(userVO.getPhoneNumber());
             if (key.equals(userVO.getVfCode())) {
-                return setResultSuccessMsg(Constants.ERROR_LOGIN_SUCCESS);
+                //生成Token
+                String token = tokenUtils.token(user.getMobile(), user.getPassword());
+                resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
+                return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
             }
             return setResultError(Constants.ERROR_QCORE_);
         }
@@ -70,7 +78,10 @@ public class UserServiceImpl extends BaseService implements UserService {
             }
             //密码正确
             if (user.getPassword().equals(userVO.getPassword())) {
-                return setResultSuccessMsg(Constants.ERROR_LOGIN_SUCCESS);
+                //生成Token
+                String token = tokenUtils.token(user.getMobile(), user.getPassword());
+                resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
+                return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
             }
         }
         return setResultError(Constants.ERROR_LOGIN_ERROR);

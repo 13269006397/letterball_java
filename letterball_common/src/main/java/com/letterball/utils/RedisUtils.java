@@ -6,7 +6,6 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
-
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 

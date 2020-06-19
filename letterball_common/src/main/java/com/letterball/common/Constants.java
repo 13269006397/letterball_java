@@ -8,7 +8,7 @@ public interface Constants {
 
     public static final String ERROR_LOGIN_PWD           = "密码错误,请重新输入！";
     public static final String ERROR_LOGIN_USER_NAME     = "账号不存在，请重新输入!";
-    public static final String ERROR_LOGIN_SUCCESS       = "登陆成功";
+    public static final String SUCCESS_LOGIN            = "登陆成功";
     public static final String ERROR_LOGIN_ERROR         = "登陆错误";
     public static final String ERROR_LOGIN__NOPHONE      = "请输入手机号";
     public static final String ERROR_SEND_QCORE          = "验证码发送失败";
@@ -69,6 +69,7 @@ public interface Constants {
     public static final String SEARCH_LABEL_ID           = "labelId";
     public static final String SEARCH_THUMBUP            = "thumbup";
     public static final String SEARCH_MOBILE             = "mobile";
+    public static final String SEARCH_LOGIN_TOKEN        = "token";
 
 
 
