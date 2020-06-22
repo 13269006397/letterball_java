@@ -10,4 +10,6 @@ public interface UserService {
 
     ResponseBase userLogin(UserVO userVO);
 
+    ResponseBase addUser(UserVO userVO);
+
 }

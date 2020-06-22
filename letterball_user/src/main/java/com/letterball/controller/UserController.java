@@ -53,4 +53,12 @@ public class UserController extends BaseService {
     public ResponseBase userLogin(@RequestBody UserVO userVO) {
         return userService.userLogin(userVO);
     }
+
+    /**
+     * 新增用户
+     */
+    @PostMapping("/login/addUser")
+    public ResponseBase addUser (@RequestBody UserVO userVO){
+        return userService.addUser(userVO);
+    }
 }

@@ -7,8 +7,11 @@ public interface Constants {
     /************************************************************************************************/
 
     public static final String ERROR_LOGIN_PWD           = "密码错误,请重新输入！";
-    public static final String ERROR_LOGIN_USER_NAME     = "账号不存在，请重新输入!";
-    public static final String SUCCESS_LOGIN            = "登陆成功";
+    public static final String ERROR_ADD_USER_MOBILE     = "当前手机号已经注册！";
+    public static final String ERROR_ADD                 = "注册错误";
+    public static final String SUCCESS_ADD               = "注册成功！";
+    public static final String ERROR_LOGIN_USER_NAME     = "账号不存在，请重新输入！";
+    public static final String SUCCESS_LOGIN             = "登陆成功";
     public static final String ERROR_LOGIN_ERROR         = "登陆错误";
     public static final String ERROR_LOGIN__NOPHONE      = "请输入手机号";
     public static final String ERROR_SEND_QCORE          = "验证码发送失败";

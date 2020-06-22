@@ -51,7 +51,9 @@
       #{interest,jdbcType=VARCHAR}, #{personality,jdbcType=VARCHAR}, #{fansCount,jdbcType=INTEGER}, 
       #{followCount,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.letterball.entity.User" >
+
+  <!--新增用户-->
+  <insert id="addUser" parameterType="com.letterball.entity.User" >
     insert into tb_user
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -1,6 +1,7 @@
 package com.letterball.utils;
 
 import java.util.Random;
+import java.util.UUID;
 
 public class NumberUtils {
 
@@ -16,5 +17,12 @@ public class NumberUtils {
             str.append(random.nextInt(10));
         }
         return str.toString();
+    }
+
+    /**
+     * UUid
+     */
+    public String randomUUID() {
+        return UUID.randomUUID().toString().replace("-", "");
     }
 }

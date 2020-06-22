@@ -6,14 +6,17 @@ import com.letterball.entity.ResponseBase;
 import com.letterball.entity.User;
 import com.letterball.mapper.UserMapper;
 import com.letterball.service.UserService;
+import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.utils.TokenUtils;
 import com.letterball.vo.UserVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 
 @Service
@@ -85,5 +88,32 @@ public class UserServiceImpl extends BaseService implements UserService {
             }
         }
         return setResultError(Constants.ERROR_LOGIN_ERROR);
+    }
+
+    /**
+     * 新增用户
+     * @param userVO
+     * @return
+     */
+    @Override
+    public ResponseBase addUser(UserVO userVO) {
+        User searchUser = selectUserByMobile(userVO);
+        HashMap<String, Object> resultParams = new HashMap<>();
+        User user = new User();
+        if (StringUtils.isEmpty(searchUser)){
+            try {
+                BeanUtils.copyProperties(userVO,user);
+                //放参数
+                user.setMobile(userVO.getPhoneNumber());
+                user.setRegTime(new Date());
+                user.setId(new NumberUtils().randomUUID());
+                userMapper.addUser(user);
+            }catch (Exception e){
+                return setResultError(Constants.ERROR_ADD);
+            }
+        }else {
+            return setResultError(Constants.ERROR_ADD_USER_MOBILE);
+        }
+       return setResultSuccessMsg(Constants.SUCCESS_ADD);
     }
 }

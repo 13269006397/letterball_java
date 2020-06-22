@@ -12,7 +12,12 @@ public interface UserMapper {
 
     int insert(User record);
 
-    int insertSelective(User record);
+    /**
+     * 新增用户
+     * @param user
+     * @return
+     */
+    int addUser(User user);
 
     /**
      * 根据手机号获取用户
