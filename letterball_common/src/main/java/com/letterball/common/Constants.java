@@ -55,7 +55,10 @@ public interface Constants {
     /* 数字参数类 */
     /************************************************************************************************/
 
-    public static final Long COMM_DATA_ZERO     = 0L;
+    public static final Long COMM_DATA_ZERO           = 0L;
+    public static final String PERMISSION_ONE        = "01";
+    public static final String PERMISSION_TWO        = "02";
+    public static final String PERMISSION_THREE      = "03";
 
     /*************************************************************************************************/
     /* 查询参数 */
@@ -73,7 +76,8 @@ public interface Constants {
     public static final String SEARCH_THUMBUP            = "thumbup";
     public static final String SEARCH_MOBILE             = "mobile";
     public static final String SEARCH_LOGIN_TOKEN        = "token";
-
+    public static final String SEARCH_USER_ID            = "userId";
+    public static final String SEARCH_USER               = "user";
 
 
 

@@ -58,7 +58,16 @@ public class UserController extends BaseService {
      * 新增用户
      */
     @PostMapping("/login/addUser")
-    public ResponseBase addUser (@RequestBody UserVO userVO){
+    public ResponseBase addUser(@RequestBody UserVO userVO) {
         return userService.addUser(userVO);
     }
+
+    /**
+     * 根据id查询用户
+     */
+    @PostMapping("/findUserById")
+    public ResponseBase findUserById(@RequestBody UserVO userVO) {
+        return userService.findUserById(userVO);
+    }
+
 }

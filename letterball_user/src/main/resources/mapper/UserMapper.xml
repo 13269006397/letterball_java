@@ -19,6 +19,9 @@
     <result column="PERSONALITY" property="personality" jdbcType="VARCHAR" />
     <result column="FANS_COUNT" property="fansCount" jdbcType="INTEGER" />
     <result column="FOLLOW_COUNT" property="followCount" jdbcType="INTEGER" />
+
+    <!--权限表-->
+    <result column="PERMISSION" property="permission" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, MOBILE, PASSWORD, NICK_NAME, SEX, BIRTHDAY, AVATAR, EMAIL, REG_TIME, UPDATE_TIME, 
@@ -31,6 +34,17 @@
     <include refid="Base_Column_List" />
     from tb_user
     where MOBILE = #{mobile,jdbcType=VARCHAR}
+  </select>
+
+  <!--根据id查询用户-->
+  <select id="findUserById" resultMap="BaseResultMap" parameterType="map" >
+   SELECT
+	*
+    FROM
+	tb_user u
+	LEFT JOIN tb_permission p ON u.ID = p.ID
+    WHERE
+    u.ID = #{id,jdbcType=VARCHAR}
   </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

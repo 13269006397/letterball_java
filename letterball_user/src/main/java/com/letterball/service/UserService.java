@@ -12,4 +12,6 @@ public interface UserService {
 
     ResponseBase addUser(UserVO userVO);
 
+    ResponseBase findUserById(UserVO userVO);
+
 }

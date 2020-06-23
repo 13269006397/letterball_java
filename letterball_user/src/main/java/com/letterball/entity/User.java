@@ -39,4 +39,7 @@ public class User {
 
     private Integer followCount;
 
+    //权限表数据
+    private String permission;
+
 }

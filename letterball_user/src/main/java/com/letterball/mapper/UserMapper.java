@@ -26,6 +26,13 @@ public interface UserMapper {
      */
     User selectUserByMobile(HashMap<String,Object> map);
 
+    /**
+     * 根据用户id查询用户
+     * @param map
+     * @return
+     */
+    User findUserById(HashMap<String,Object> map);
+
     int updateByPrimaryKeySelective(User record);
 
     int updateByPrimaryKey(User record);

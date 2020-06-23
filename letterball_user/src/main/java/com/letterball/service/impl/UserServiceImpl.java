@@ -2,8 +2,10 @@ package com.letterball.service.impl;
 
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
+import com.letterball.entity.Permission;
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.User;
+import com.letterball.mapper.PermissionMapper;
 import com.letterball.mapper.UserMapper;
 import com.letterball.service.UserService;
 import com.letterball.utils.NumberUtils;
@@ -24,6 +26,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private PermissionMapper permissionMapper;
 
     @Resource
     private RedisUtils redisUtils;
@@ -68,6 +73,7 @@ public class UserServiceImpl extends BaseService implements UserService {
                 //生成Token
                 String token = tokenUtils.token(user.getMobile(), user.getPassword());
                 resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
+                resultParams.put(Constants.SEARCH_USER_ID,user.getId());
                 return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
             }
             return setResultError(Constants.ERROR_QCORE_);
@@ -84,6 +90,7 @@ public class UserServiceImpl extends BaseService implements UserService {
                 //生成Token
                 String token = tokenUtils.token(user.getMobile(), user.getPassword());
                 resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
+                resultParams.put(Constants.SEARCH_USER_ID,user.getId());
                 return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
             }
         }
@@ -102,12 +109,19 @@ public class UserServiceImpl extends BaseService implements UserService {
         User user = new User();
         if (StringUtils.isEmpty(searchUser)){
             try {
+                String userId = new NumberUtils().randomUUID();
                 BeanUtils.copyProperties(userVO,user);
                 //放参数
                 user.setMobile(userVO.getPhoneNumber());
                 user.setRegTime(new Date());
-                user.setId(new NumberUtils().randomUUID());
+                user.setId(userId);
                 userMapper.addUser(user);
+
+                //初始化用户权限01 管理员 02普通用户 03vip用户
+                Permission permission = new Permission();
+                permission.setId(userId);
+                permission.setPermission(Constants.PERMISSION_TWO);
+                permissionMapper.insertUserPermission(permission);
             }catch (Exception e){
                 return setResultError(Constants.ERROR_ADD);
             }
@@ -115,5 +129,20 @@ public class UserServiceImpl extends BaseService implements UserService {
             return setResultError(Constants.ERROR_ADD_USER_MOBILE);
         }
        return setResultSuccessMsg(Constants.SUCCESS_ADD);
+    }
+
+    /**
+     * 根据用户id查询用户
+     * @param userVO
+     * @return
+     */
+    @Override
+    public ResponseBase findUserById(UserVO userVO) {
+        HashMap<String, Object> requestParams = new HashMap<>();
+        HashMap<String, Object> resultMap = new HashMap<>();
+        requestParams.put(Constants.SERCH_DATA_ID,userVO.getId());
+        User user = userMapper.findUserById(requestParams);
+        resultMap.put(Constants.SEARCH_USER,user);
+        return setResultSuccessData(resultMap);
     }
 }
