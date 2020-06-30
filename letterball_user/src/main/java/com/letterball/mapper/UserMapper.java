@@ -4,6 +4,7 @@ import com.letterball.entity.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 
 @Repository
 public interface UserMapper {
@@ -33,7 +34,14 @@ public interface UserMapper {
      */
     User findUserById(HashMap<String,Object> map);
 
-    int updateByPrimaryKeySelective(User record);
+    int updateUserById(User record);
 
     int updateByPrimaryKey(User record);
+
+    /**
+     * 查询用户列表
+     * @param map
+     * @return
+     */
+    List<User> findUserList(HashMap<String,Object> map);
 }

@@ -17,6 +17,7 @@
     <result column="ON_LINE" property="onLine" jdbcType="BIGINT" />
     <result column="INTEREST" property="interest" jdbcType="VARCHAR" />
     <result column="PERSONALITY" property="personality" jdbcType="VARCHAR" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="VARCHAR" />
     <result column="FANS_COUNT" property="fansCount" jdbcType="INTEGER" />
     <result column="FOLLOW_COUNT" property="followCount" jdbcType="INTEGER" />
 
@@ -25,15 +26,16 @@
   </resultMap>
   <sql id="Base_Column_List" >
     ID, MOBILE, PASSWORD, NICK_NAME, SEX, BIRTHDAY, AVATAR, EMAIL, REG_TIME, UPDATE_TIME, 
-    LAST_TIME, ON_LINE, INTEREST, PERSONALITY, FANS_COUNT, FOLLOW_COUNT
+    LAST_TIME, ON_LINE, INTEREST, PERSONALITY, FANS_COUNT, FOLLOW_COUNT, IS_DELETE
   </sql>
 
   <!--根据手机号查询用户-->
   <select id="selectUserByMobile" resultMap="BaseResultMap" parameterType="map" >
     select 
-    <include refid="Base_Column_List" />
-    from tb_user
-    where MOBILE = #{mobile,jdbcType=VARCHAR}
+    *
+    from tb_user u
+    LEFT JOIN tb_permission p ON u.ID = p.ID
+    where u.MOBILE = #{mobile,jdbcType=VARCHAR}
   </select>
 
   <!--根据id查询用户-->
@@ -47,6 +49,25 @@
     u.ID = #{id,jdbcType=VARCHAR}
   </select>
 
+  <!--查询用户列表-->
+  <select id="findUserList" resultMap="BaseResultMap" parameterType="map" >
+   SELECT
+	*
+    FROM
+	tb_user u
+	LEFT JOIN tb_permission p ON u.ID = p.ID
+    WHERE 1=1
+    <if test="mobile != null and mobile != ''" >
+      AND u.MOBILE = #{mobile,jdbcType=VARCHAR}
+    </if>
+    <if test="nickName != null and nickName != ''" >
+      AND u.NICK_NAME = #{nickName,jdbcType=VARCHAR}
+    </if>
+    <if test="permission != null and permission != ''" >
+      AND p.PERMISSION = #{permission,jdbcType=VARCHAR}
+    </if>
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from tb_user
     where ID = #{id,jdbcType=VARCHAR}
@@ -56,12 +77,14 @@
       NICK_NAME, SEX, BIRTHDAY, 
       AVATAR, EMAIL, REG_TIME, 
       UPDATE_TIME, LAST_TIME, ON_LINE, 
-      INTEREST, PERSONALITY, FANS_COUNT, 
+      INTEREST, PERSONALITY, FANS_COUNT,
+      IS_DELETE,
       FOLLOW_COUNT)
     values (#{id,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
       #{avatar,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{regTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, #{onLine,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{lastTime,jdbcType=TIMESTAMP}, #{onLine,jdbcType=BIGINT},
+      #{isDelete,jdbcType=VARCHAR},
       #{interest,jdbcType=VARCHAR}, #{personality,jdbcType=VARCHAR}, #{fansCount,jdbcType=INTEGER}, 
       #{followCount,jdbcType=INTEGER})
   </insert>
@@ -118,6 +141,9 @@
       <if test="followCount != null" >
         FOLLOW_COUNT,
       </if>
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -162,6 +188,9 @@
       <if test="personality != null" >
         #{personality,jdbcType=VARCHAR},
       </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=VARCHAR},
+      </if>
       <if test="fansCount != null" >
         #{fansCount,jdbcType=INTEGER},
       </if>
@@ -170,28 +199,28 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.letterball.entity.User" >
+  <update id="updateUserById" parameterType="com.letterball.entity.User" >
     update tb_user
     <set >
-      <if test="mobile != null" >
+      <if test="mobile != null and mobile != ''" >
         MOBILE = #{mobile,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
+      <if test="password != null and password != ''" >
         PASSWORD = #{password,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null" >
+      <if test="nickName != null and nickName != ''" >
         NICK_NAME = #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="sex != null" >
+      <if test="sex != null and sex != ''" >
         SEX = #{sex,jdbcType=VARCHAR},
       </if>
       <if test="birthday != null" >
         BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
       </if>
-      <if test="avatar != null" >
+      <if test="avatar != null and avatar != ''" >
         AVATAR = #{avatar,jdbcType=VARCHAR},
       </if>
-      <if test="email != null" >
+      <if test="email != null and email != ''" >
         EMAIL = #{email,jdbcType=VARCHAR},
       </if>
       <if test="regTime != null" >
@@ -200,16 +229,19 @@
       <if test="updateTime != null" >
         UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="isDelete != null" >
+        IS_DELETE = #{isDelete,jdbcType=VARCHAR},
+      </if>
       <if test="lastTime != null" >
         LAST_TIME = #{lastTime,jdbcType=TIMESTAMP},
       </if>
       <if test="onLine != null" >
         ON_LINE = #{onLine,jdbcType=BIGINT},
       </if>
-      <if test="interest != null" >
+      <if test="interest != null and interest != ''" >
         INTEREST = #{interest,jdbcType=VARCHAR},
       </if>
-      <if test="personality != null" >
+      <if test="personality != null and personality != ''" >
         PERSONALITY = #{personality,jdbcType=VARCHAR},
       </if>
       <if test="fansCount != null" >
@@ -229,6 +261,7 @@
       SEX = #{sex,jdbcType=VARCHAR},
       BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
       AVATAR = #{avatar,jdbcType=VARCHAR},
+      IS_DELETE = #{isDelete,jdbcType=VARCHAR},
       EMAIL = #{email,jdbcType=VARCHAR},
       REG_TIME = #{regTime,jdbcType=TIMESTAMP},
       UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},

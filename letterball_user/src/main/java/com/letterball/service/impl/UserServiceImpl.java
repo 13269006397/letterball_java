@@ -1,5 +1,7 @@
 package com.letterball.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.Permission;
@@ -20,6 +22,7 @@ import org.springframework.util.StringUtils;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service
 public class UserServiceImpl extends BaseService implements UserService {
@@ -62,6 +65,11 @@ public class UserServiceImpl extends BaseService implements UserService {
     public ResponseBase userLogin(UserVO userVO) {
         User user = selectUserByMobile(userVO);
         HashMap<String, Object> resultParams = new HashMap<>();
+
+        if(user.getIsDelete().equals(Constants.PERMISSION_TWO)){
+            return setResultError(Constants.ERROR_LOGIN_USER);
+        }
+
         //账号不存在
         if (StringUtils.isEmpty(user)) {
             return setResultError(Constants.ERROR_LOGIN_USER_NAME);
@@ -70,11 +78,21 @@ public class UserServiceImpl extends BaseService implements UserService {
         if (!StringUtils.isEmpty(userVO.getVfCode())) {
             String key = redisUtils.getKey(userVO.getPhoneNumber());
             if (key.equals(userVO.getVfCode())) {
-                //生成Token
-                String token = tokenUtils.token(user.getMobile(), user.getPassword());
-                resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
-                resultParams.put(Constants.SEARCH_USER_ID,user.getId());
-                return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
+                try {
+                    //生成Token
+                    String token = tokenUtils.token(user.getMobile(), user.getPassword());
+                    resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
+                    resultParams.put(Constants.SEARCH_USER_ID, user.getId());
+                    resultParams.put(Constants.SEARCH_USER_PERMISSION, user.getPermission());
+
+                    //修改最后登陆时间
+                    user.setLastTime(new Date());
+                    userMapper.updateUserById(user);
+                    return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
+                } catch (Exception e) {
+                    return setResultError(Constants.ERROR_TRY_CATCH);
+                }
+
             }
             return setResultError(Constants.ERROR_QCORE_);
         }
@@ -87,11 +105,20 @@ public class UserServiceImpl extends BaseService implements UserService {
             }
             //密码正确
             if (user.getPassword().equals(userVO.getPassword())) {
-                //生成Token
-                String token = tokenUtils.token(user.getMobile(), user.getPassword());
-                resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
-                resultParams.put(Constants.SEARCH_USER_ID,user.getId());
-                return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
+                try {
+                    //生成Token
+                    String token = tokenUtils.token(user.getMobile(), user.getPassword());
+                    resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
+                    resultParams.put(Constants.SEARCH_USER_ID, user.getId());
+                    resultParams.put(Constants.SEARCH_USER_PERMISSION, user.getPermission());
+
+                    //修改最后登陆时间
+                    user.setLastTime(new Date());
+                    userMapper.updateUserById(user);
+                    return setResult(Constants.SUCCESS, Constants.SUCCESS_LOGIN, resultParams);
+                } catch (Exception e) {
+                    return setResultError(Constants.ERROR_TRY_CATCH);
+                }
             }
         }
         return setResultError(Constants.ERROR_LOGIN_ERROR);
@@ -99,6 +126,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     /**
      * 新增用户
+     *
      * @param userVO
      * @return
      */
@@ -107,10 +135,10 @@ public class UserServiceImpl extends BaseService implements UserService {
         User searchUser = selectUserByMobile(userVO);
         HashMap<String, Object> resultParams = new HashMap<>();
         User user = new User();
-        if (StringUtils.isEmpty(searchUser)){
+        if (StringUtils.isEmpty(searchUser)) {
             try {
                 String userId = new NumberUtils().randomUUID();
-                BeanUtils.copyProperties(userVO,user);
+                BeanUtils.copyProperties(userVO, user);
                 //放参数
                 user.setMobile(userVO.getPhoneNumber());
                 user.setRegTime(new Date());
@@ -122,17 +150,18 @@ public class UserServiceImpl extends BaseService implements UserService {
                 permission.setId(userId);
                 permission.setPermission(Constants.PERMISSION_TWO);
                 permissionMapper.insertUserPermission(permission);
-            }catch (Exception e){
+            } catch (Exception e) {
                 return setResultError(Constants.ERROR_ADD);
             }
-        }else {
+        } else {
             return setResultError(Constants.ERROR_ADD_USER_MOBILE);
         }
-       return setResultSuccessMsg(Constants.SUCCESS_ADD);
+        return setResultSuccessMsg(Constants.SUCCESS_ADD);
     }
 
     /**
      * 根据用户id查询用户
+     *
      * @param userVO
      * @return
      */
@@ -140,9 +169,39 @@ public class UserServiceImpl extends BaseService implements UserService {
     public ResponseBase findUserById(UserVO userVO) {
         HashMap<String, Object> requestParams = new HashMap<>();
         HashMap<String, Object> resultMap = new HashMap<>();
-        requestParams.put(Constants.SERCH_DATA_ID,userVO.getId());
+        requestParams.put(Constants.SERCH_DATA_ID, userVO.getId());
         User user = userMapper.findUserById(requestParams);
-        resultMap.put(Constants.SEARCH_USER,user);
+        resultMap.put(Constants.SEARCH_USER, user);
+        return setResultSuccessData(resultMap);
+    }
+
+    /**
+     * 查询用户列表
+     *
+     * @param userVO
+     * @return
+     */
+    @Override
+    public ResponseBase findUserList(UserVO userVO) {
+        HashMap<String, Object> requestParams = new HashMap<>();
+        HashMap<String, Object> resultMap = new HashMap<>();
+        long total = 0;
+        if (!StringUtils.isEmpty(userVO.getMobile())) {
+            requestParams.put(Constants.SEARCH_MOBILE, userVO.getMobile());
+        }
+        if (!StringUtils.isEmpty(userVO.getNickName())) {
+            requestParams.put(Constants.SEARCH_NICK_NAME, userVO.getNickName());
+        }
+        if (!StringUtils.isEmpty(userVO.getPermission())) {
+            requestParams.put(Constants.SEARCH_PERMISSION, userVO.getPermission());
+        }
+        // 分页
+        PageHelper.startPage(userVO.getPage(), userVO.getLimit());
+        List<User> userList = userMapper.findUserList(requestParams);
+        total = ((Page<User>) userList).getTotal();
+
+        resultMap.put(Constants.COMM_QUERY_RESP_ITEM, userList);
+        resultMap.put(Constants.COMM_QUERY_RESP_TOTAL, total);
         return setResultSuccessData(resultMap);
     }
 }

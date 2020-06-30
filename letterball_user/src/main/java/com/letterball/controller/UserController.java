@@ -70,4 +70,14 @@ public class UserController extends BaseService {
         return userService.findUserById(userVO);
     }
 
+    /**
+     * 查询用户列表
+     * @param userVO
+     * @return
+     */
+    @PostMapping("/findUserList")
+    public  ResponseBase findUserList(@RequestBody UserVO userVO) {
+        return userService.findUserList(userVO);
+    }
+
 }

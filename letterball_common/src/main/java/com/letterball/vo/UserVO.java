@@ -39,12 +39,16 @@ public class UserVO {
 
     private Integer followCount;
 
+    private String isDelete;
+
     //页面传输过来的数据
 
     private int page;
 
     private int limit;
 
+    //权限
+    private String permission;
 
     private String phoneNumber;
 

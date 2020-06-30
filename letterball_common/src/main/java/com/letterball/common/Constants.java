@@ -8,9 +8,11 @@ public interface Constants {
 
     public static final String ERROR_LOGIN_PWD           = "密码错误,请重新输入！";
     public static final String ERROR_ADD_USER_MOBILE     = "当前手机号已经注册！";
+    public static final String ERROR_TRY_CATCH           = "我是try、catch报错的0.0！";
     public static final String ERROR_ADD                 = "注册错误";
     public static final String SUCCESS_ADD               = "注册成功！";
     public static final String ERROR_LOGIN_USER_NAME     = "账号不存在，请重新输入！";
+    public static final String ERROR_LOGIN_USER          = "账号已经被冻结，请联系管理员处理!!";
     public static final String SUCCESS_LOGIN             = "登陆成功";
     public static final String ERROR_LOGIN_ERROR         = "登陆错误";
     public static final String ERROR_LOGIN__NOPHONE      = "请输入手机号";
@@ -76,10 +78,10 @@ public interface Constants {
     public static final String SEARCH_THUMBUP            = "thumbup";
     public static final String SEARCH_MOBILE             = "mobile";
     public static final String SEARCH_LOGIN_TOKEN        = "token";
-    public static final String SEARCH_USER_ID            = "userId";
+    public static final String SEARCH_USER_ID            = "id";
+    public static final String SEARCH_USER_PERMISSION    = "permission";
     public static final String SEARCH_USER               = "user";
-
-
-
+    public static final String SEARCH_NICK_NAME          = "nickName";
+    public static final String SEARCH_PERMISSION         = "permission";
 
 }
