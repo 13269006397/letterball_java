@@ -48,7 +48,7 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Override
     public User selectUserByMobile(UserVO userVO) {
         HashMap<String, Object> requestmap = new HashMap<>();
-        String mobile = userVO.getPhoneNumber();
+        String mobile = userVO.getMobile();
         if (!StringUtils.isEmpty(mobile)) {
             requestmap.put(Constants.SEARCH_MOBILE, mobile);
         }
@@ -76,7 +76,7 @@ public class UserServiceImpl extends BaseService implements UserService {
         }
         //验证码登录
         if (!StringUtils.isEmpty(userVO.getVfCode())) {
-            String key = redisUtils.getKey(userVO.getPhoneNumber());
+            String key = redisUtils.getKey(userVO.getMobile());
             if (key.equals(userVO.getVfCode())) {
                 try {
                     //生成Token
@@ -140,9 +140,13 @@ public class UserServiceImpl extends BaseService implements UserService {
                 String userId = new NumberUtils().randomUUID();
                 BeanUtils.copyProperties(userVO, user);
                 //放参数
-                user.setMobile(userVO.getPhoneNumber());
+                user.setMobile(userVO.getMobile());
                 user.setRegTime(new Date());
                 user.setId(userId);
+                //初始化
+                user.setIsDelete(Constants.PERMISSION_ONE);
+                user.setFansCount(Constants.INT_ZERO);
+                user.setFollowCount(Constants.INT_ZERO);
                 userMapper.addUser(user);
 
                 //初始化用户权限01 管理员 02普通用户 03vip用户
@@ -195,6 +199,9 @@ public class UserServiceImpl extends BaseService implements UserService {
         if (!StringUtils.isEmpty(userVO.getPermission())) {
             requestParams.put(Constants.SEARCH_PERMISSION, userVO.getPermission());
         }
+        if (!StringUtils.isEmpty(userVO.getIsDelete())) {
+            requestParams.put(Constants.SEARCH_IS_DELETE, userVO.getIsDelete());
+        }
         // 分页
         PageHelper.startPage(userVO.getPage(), userVO.getLimit());
         List<User> userList = userMapper.findUserList(requestParams);
@@ -203,5 +210,28 @@ public class UserServiceImpl extends BaseService implements UserService {
         resultMap.put(Constants.COMM_QUERY_RESP_ITEM, userList);
         resultMap.put(Constants.COMM_QUERY_RESP_TOTAL, total);
         return setResultSuccessData(resultMap);
+    }
+
+    /**
+     * 修改用户状态
+     * @param userVO
+     * @return
+     */
+    @Override
+    public ResponseBase updateUserStatus(UserVO userVO) {
+        User user = new User();
+        HashMap<String, Object> resultMap = new HashMap<>();
+        if (!StringUtils.isEmpty(userVO.getId())){
+            user.setId(userVO.getId());
+        }
+        if (!StringUtils.isEmpty(userVO.getIsDelete())){
+            user.setIsDelete(userVO.getIsDelete());
+        }
+            try{
+                userMapper.updateUserById(user);
+            }catch (Exception e){
+                return setResultError(Constants.UPDATE_ERROR);
+        }
+        return setResultSuccessMsg(Constants.UPDATE_SUCCESS);
     }
 }

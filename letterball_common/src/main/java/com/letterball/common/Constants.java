@@ -30,7 +30,6 @@ public interface Constants {
     public static final String EXAMINE_ERROR             = "审核失败";
 
 
-
     /*************************************************************************************************/
     /* 响应码 */
     /************************************************************************************************/
@@ -57,7 +56,8 @@ public interface Constants {
     /* 数字参数类 */
     /************************************************************************************************/
 
-    public static final Long COMM_DATA_ZERO           = 0L;
+    public static final Long COMM_DATA_ZERO          = 0L;
+    public static final int INT_ZERO                 = 0;
     public static final String PERMISSION_ONE        = "01";
     public static final String PERMISSION_TWO        = "02";
     public static final String PERMISSION_THREE      = "03";
@@ -83,5 +83,6 @@ public interface Constants {
     public static final String SEARCH_USER               = "user";
     public static final String SEARCH_NICK_NAME          = "nickName";
     public static final String SEARCH_PERMISSION         = "permission";
+    public static final String SEARCH_IS_DELETE          = "isDelete";
 
 }

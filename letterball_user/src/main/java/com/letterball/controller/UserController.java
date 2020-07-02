@@ -35,10 +35,10 @@ public class UserController extends BaseService {
         //查询发送验证码手机号是否存在
         User user = userService.selectUserByMobile(userVO);
         if (!StringUtils.isEmpty(user)) {
-            String PhoneNumber = userVO.getPhoneNumber();
+            String mobile = userVO.getMobile();
             //生成验证码
             String vfCode = new NumberUtils().randomCode();
-            redisUtils.setKeyS(PhoneNumber, vfCode, 60);
+            redisUtils.setKeyS(mobile, vfCode, 60);
         } else {
             return setResultError(Constants.ERROR_SEND_QCORE);
         }
@@ -78,6 +78,16 @@ public class UserController extends BaseService {
     @PostMapping("/findUserList")
     public  ResponseBase findUserList(@RequestBody UserVO userVO) {
         return userService.findUserList(userVO);
+    }
+
+    /**
+     * 修改用户状态
+     * @param userVO
+     * @return
+     */
+    @PostMapping("/updateUserStatus")
+    public ResponseBase updateUserStatus(@RequestBody UserVO userVO){
+        return userService.updateUserStatus(userVO);
     }
 
 }

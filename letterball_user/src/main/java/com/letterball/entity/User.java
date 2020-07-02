@@ -10,6 +10,8 @@ public class User {
 
     private String id;
 
+    private String idNumber;
+
     private String mobile;
 
     private String password;

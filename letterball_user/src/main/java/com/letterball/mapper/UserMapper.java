@@ -11,7 +11,7 @@ public interface UserMapper {
 
     int deleteByPrimaryKey(String id);
 
-    int insert(User record);
+    int insert(User user);
 
     /**
      * 新增用户

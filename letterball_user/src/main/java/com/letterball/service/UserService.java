@@ -16,4 +16,6 @@ public interface UserService {
 
     ResponseBase findUserList(UserVO userVO);
 
+    ResponseBase updateUserStatus(UserVO userVO);
+
 }
