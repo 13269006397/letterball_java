@@ -16,24 +16,22 @@ public class User {
 
     private String password;
 
+    private String age;
+
     private String nickName;
 
     private String sex;
 
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd")
     private Date birthday;
 
     private String avatar;
 
     private String email;
 
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date regTime;
 
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
-    @JsonFormat(locale="zh", timezone="GMT+8", pattern="yyyy-MM-dd HH:mm:ss")
     private Date lastTime;
 
     private Long onLine;

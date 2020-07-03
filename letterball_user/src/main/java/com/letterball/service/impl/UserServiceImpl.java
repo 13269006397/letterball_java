@@ -221,12 +221,14 @@ public class UserServiceImpl extends BaseService implements UserService {
     public ResponseBase updateUserStatus(UserVO userVO) {
         User user = new User();
         HashMap<String, Object> resultMap = new HashMap<>();
+        BeanUtils.copyProperties(userVO, user);
         if (!StringUtils.isEmpty(userVO.getId())){
             user.setId(userVO.getId());
         }
         if (!StringUtils.isEmpty(userVO.getIsDelete())){
             user.setIsDelete(userVO.getIsDelete());
         }
+
             try{
                 userMapper.updateUserById(user);
             }catch (Exception e){
