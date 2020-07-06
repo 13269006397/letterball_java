@@ -298,4 +298,8 @@
       FOLLOW_COUNT = #{followCount,jdbcType=INTEGER}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+
+  <delete id="deleteUserById" parameterType="String">
+    delete from tb_user t where t.ID = #{id,jdbcType=VARCHAR}
+  </delete>
 </mapper>

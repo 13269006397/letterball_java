@@ -236,4 +236,20 @@ public class UserServiceImpl extends BaseService implements UserService {
         }
         return setResultSuccessMsg(Constants.UPDATE_SUCCESS);
     }
+
+    /**
+     * 删除用户
+     * @param userVO
+     * @return
+     */
+    @Override
+    public ResponseBase deleteUserById(UserVO userVO) {
+        String id = userVO.getId();
+        try{
+            userMapper.deleteUserById(id);
+        }catch (Exception e){
+            return setResultError(Constants.DELETE_ERROR);
+        }
+        return setResultSuccessMsg(Constants.DELETE_SUCCESS);
+    }
 }

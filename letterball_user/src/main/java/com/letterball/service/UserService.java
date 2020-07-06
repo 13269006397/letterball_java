@@ -18,4 +18,6 @@ public interface UserService {
 
     ResponseBase updateUserStatus(UserVO userVO);
 
+    ResponseBase deleteUserById(UserVO userVO);
+
 }

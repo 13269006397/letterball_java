@@ -3,10 +3,12 @@ package com.letterball.mapper;
 import com.letterball.entity.User;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 import java.util.List;
 
 @Repository
+@Transactional
 public interface UserMapper {
 
     int deleteByPrimaryKey(String id);
@@ -44,4 +46,6 @@ public interface UserMapper {
      * @return
      */
     List<User> findUserList(HashMap<String,Object> map);
+
+    void deleteUserById(String id);
 }
