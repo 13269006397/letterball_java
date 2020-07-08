@@ -45,6 +45,8 @@ public class UserVO {
 
     private String isDelete;
 
+    private String fileId;
+
     //页面传输过来的数据
 
     private int page;

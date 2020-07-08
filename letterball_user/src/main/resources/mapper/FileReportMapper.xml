@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.letterball.mapper.FileReportMapper" >
+  <resultMap id="BaseResultMap" type="com.letterball.entity.FileReport" >
+    <result column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="FILE_CODE" property="fileCode" jdbcType="VARCHAR" />
+    <result column="FILE_PATH" property="filePath" jdbcType="VARCHAR" />
+    <result column="ORI_FILE_NAME" property="oriFileName" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <delete id="deleteFileById" parameterType="String">
+    delete from tb_fileReport where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+
+  <!--修改界面删除附件信息-->
+  <delete id="deleteFilesById" parameterType="Map">
+    delete from tb_fileReport where FILE_CODE = #{fileId, jdbcType=VARCHAR} and  USER_ID = #{id, jdbcType=VARCHAR}
+  </delete>
+
+  <select id="findFileReport" parameterType="String" resultMap="BaseResultMap">
+    select * from tb_fileReport where USER_ID = #{userId,jdbcType=VARCHAR}
+
+  </select>
+
+  <insert id="insert" parameterType="com.letterball.entity.FileReport" >
+
+    insert into tb_fileReport (FILE_CODE, FILE_PATH, ORI_FILE_NAME
+      )
+    values (#{fileCode,jdbcType=VARCHAR}, #{filePath,jdbcType=VARCHAR}, #{oriFileName,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insetFile" parameterType="com.letterball.entity.FileReport" >
+
+    insert into tb_fileReport
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="fileCode != null" >
+        FILE_CODE,
+      </if>
+      <if test="filePath != null" >
+        FILE_PATH,
+      </if>
+      <if test="oriFileName != null" >
+        ORI_FILE_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fileCode != null" >
+        #{fileCode,jdbcType=VARCHAR},
+      </if>
+      <if test="filePath != null" >
+        #{filePath,jdbcType=VARCHAR},
+      </if>
+      <if test="oriFileName != null" >
+        #{oriFileName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

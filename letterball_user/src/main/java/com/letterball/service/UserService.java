@@ -3,6 +3,7 @@ package com.letterball.service;
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.User;
 import com.letterball.vo.UserVO;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 
@@ -10,7 +11,7 @@ public interface UserService {
 
     ResponseBase userLogin(UserVO userVO);
 
-    ResponseBase addUser(UserVO userVO);
+    ResponseBase addUser(UserVO userVO, MultipartFile[] files);
 
     ResponseBase findUserById(UserVO userVO);
 
@@ -19,5 +20,7 @@ public interface UserService {
     ResponseBase updateUserStatus(UserVO userVO);
 
     ResponseBase deleteUserById(UserVO userVO);
+
+    ResponseBase deleteFilesById(UserVO userVO);
 
 }

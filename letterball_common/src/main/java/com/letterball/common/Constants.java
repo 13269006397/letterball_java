@@ -84,5 +84,8 @@ public interface Constants {
     public static final String SEARCH_NICK_NAME          = "nickName";
     public static final String SEARCH_PERMISSION         = "permission";
     public static final String SEARCH_IS_DELETE          = "isDelete";
+    public static final String REPORT_FILE_LIST          = "reportFileList";
+    public static final String REPORT_FILE_ID            = "fileId";
+
 
 }

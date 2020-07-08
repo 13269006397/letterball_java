@@ -4,9 +4,11 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
+import com.letterball.entity.FileReport;
 import com.letterball.entity.Permission;
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.User;
+import com.letterball.mapper.FileReportMapper;
 import com.letterball.mapper.PermissionMapper;
 import com.letterball.mapper.UserMapper;
 import com.letterball.service.UserService;
@@ -18,11 +20,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
+import java.io.*;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl extends BaseService implements UserService {
@@ -32,6 +38,9 @@ public class UserServiceImpl extends BaseService implements UserService {
 
     @Autowired
     private PermissionMapper permissionMapper;
+
+    @Autowired
+    private FileReportMapper fileReportMapper;
 
     @Resource
     private RedisUtils redisUtils;
@@ -131,12 +140,18 @@ public class UserServiceImpl extends BaseService implements UserService {
      * @return
      */
     @Override
-    public ResponseBase addUser(UserVO userVO) {
+    @Transactional
+    public ResponseBase addUser(UserVO userVO, MultipartFile[] files) {
         User searchUser = selectUserByMobile(userVO);
         HashMap<String, Object> resultParams = new HashMap<>();
         User user = new User();
+
+
         if (StringUtils.isEmpty(searchUser)) {
+
             try {
+                //数据上传
+
                 String userId = new NumberUtils().randomUUID();
                 BeanUtils.copyProperties(userVO, user);
                 //放参数
@@ -154,6 +169,64 @@ public class UserServiceImpl extends BaseService implements UserService {
                 permission.setId(userId);
                 permission.setPermission(Constants.PERMISSION_TWO);
                 permissionMapper.insertUserPermission(permission);
+
+
+                //附件上传
+                if(null != files && files.length>0){
+                    //上传文件逻辑
+                    BufferedInputStream bis = null;
+                    BufferedOutputStream bos = null;
+                    InputStream in = null;
+                    ByteArrayOutputStream baos = null;
+
+                    String resourcePath = null;
+                    String oriFileName = null;
+                    String fileName = null;
+                    try {
+                        for (int i = 0; i < files.length; i++){
+                            //附件id
+                            String fileCode = UUID.randomUUID().toString().replace("-", "");
+                            //源文件名称
+                            oriFileName = files[i].getOriginalFilename();
+                            System.err.println("原文件名为" + oriFileName);
+                            if ("".equals(oriFileName)){
+                                continue;
+                            }
+                            in = files[i].getInputStream();
+                            // 新文件名称
+                            fileName = getFileFullName(oriFileName);
+                            // 全路径名
+                            resourcePath = uploadFile(oriFileName,in,fileName);
+
+                            FileReport fileReport = new FileReport();
+                            fileReport.setUserId(userId);
+                            fileReport.setFileCode(fileCode);
+                            fileReport.setFilePath(resourcePath);
+                            fileReport.setOriFileName(oriFileName);
+                            // 做附件表新增操作
+                            fileReportMapper.insetFile(fileReport);
+                        }
+                    }catch (Exception e){
+                        return setResultError(Constants.ERROR_TRY_CATCH);
+                    }finally {
+                        try {
+                            if (bis != null){
+                                bis.close();
+                            }
+                            if (in != null){
+                                in.close();
+                            }
+                            if (bos != null){
+                                bos.close();
+                            }
+                            if (baos != null){
+                                baos.close();
+                            }
+                        }catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                }
             } catch (Exception e) {
                 return setResultError(Constants.ERROR_ADD);
             }
@@ -161,6 +234,51 @@ public class UserServiceImpl extends BaseService implements UserService {
             return setResultError(Constants.ERROR_ADD_USER_MOBILE);
         }
         return setResultSuccessMsg(Constants.SUCCESS_ADD);
+    }
+
+    //得到文件全名
+    private String getFileFullName(String oriFileName) throws  Exception {
+        String random = UUID.randomUUID().toString().replace("-", "");
+        String names = random+oriFileName;
+        return names;
+    }
+
+    private String uploadFile(String oriFileName, InputStream in, String fileName) throws Exception {
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+        String path;
+        try{
+            path = "D:/opt/filePath/" + File.separator + File.separator;
+            File f = new File(path);
+            if (!f.exists()){
+                f.mkdir();
+            }
+            bis = new BufferedInputStream(in);
+            bos = new BufferedOutputStream(new FileOutputStream(path + fileName));
+            byte buffer [] = new byte[1024];
+            int len = 0;
+            while ((len = bis.read(buffer)) != -1){
+                bos.write(buffer,0,len);
+            }
+            bos.flush();
+        }catch (Exception e){
+            return null;
+        }finally {
+            try{
+                if (bis != null){
+                    bis.close();
+                }
+                if (in != null){
+                    in.close();
+                }
+                if (bos != null){
+                    bos.close();
+                }
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }
+        return path + fileName;
     }
 
     /**
@@ -174,8 +292,14 @@ public class UserServiceImpl extends BaseService implements UserService {
         HashMap<String, Object> requestParams = new HashMap<>();
         HashMap<String, Object> resultMap = new HashMap<>();
         requestParams.put(Constants.SERCH_DATA_ID, userVO.getId());
+        //查用户部分
         User user = userMapper.findUserById(requestParams);
+
+        String userId = user.getId();
+        List<FileReport> reportFileList = fileReportMapper.findFileReport(userId);
+
         resultMap.put(Constants.SEARCH_USER, user);
+        resultMap.put(Constants.REPORT_FILE_LIST, reportFileList);
         return setResultSuccessData(resultMap);
     }
 
@@ -246,10 +370,39 @@ public class UserServiceImpl extends BaseService implements UserService {
     public ResponseBase deleteUserById(UserVO userVO) {
         String id = userVO.getId();
         try{
-            userMapper.deleteUserById(id);
+            if (!StringUtils.isEmpty(id)) {
+                //  删除用户信息
+                userMapper.deleteUserById(id);
+                //  删除附件信息
+                fileReportMapper.deleteFileById(id);
+                //  删除角色信息
+                permissionMapper.deletePermissionById(id);
+            }
         }catch (Exception e){
             return setResultError(Constants.DELETE_ERROR);
         }
+        return setResultSuccessMsg(Constants.DELETE_SUCCESS);
+    }
+
+    /**
+     * 删除修改用户界面的附件
+     * @param userVO
+     * @return
+     */
+    @Override
+    public ResponseBase deleteFilesById(UserVO userVO) {
+        HashMap<String, Object> requestParams = new HashMap<>();
+        String fileId = userVO.getFileId();
+        String id = userVO.getId();
+        requestParams.put(Constants.SERCH_DATA_ID,id);
+        requestParams.put(Constants.REPORT_FILE_ID, fileId);
+        try{
+            fileReportMapper.deleteFilesById(requestParams);
+
+        }catch (Exception e){
+            return setResultError(Constants.DELETE_ERROR);
+        }
+
         return setResultSuccessMsg(Constants.DELETE_SUCCESS);
     }
 }

@@ -23,4 +23,4 @@ pagehelper:
   params: count=countSqls
 logging:
   level:
-    ssm.app.mapper: debug
+    com.letterball.mapper: debug

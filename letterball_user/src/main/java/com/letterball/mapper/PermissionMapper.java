@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PermissionMapper {
 
-    int deleteByPrimaryKey(String id);
+    int deletePermissionById(String id);
 
     int insertUserPermission(Permission permission);
 

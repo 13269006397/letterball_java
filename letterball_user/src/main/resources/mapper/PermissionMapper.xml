@@ -15,7 +15,7 @@
     from tb_permission
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deletePermissionById" parameterType="java.lang.String" >
     delete from tb_permission
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
