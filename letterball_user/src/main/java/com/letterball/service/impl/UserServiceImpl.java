@@ -405,4 +405,33 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         return setResultSuccessMsg(Constants.DELETE_SUCCESS);
     }
+
+    /**
+     * 查询用户列表 返回list
+     * @param userVO
+     * @return
+     */
+    @Override
+    public List<User> findUsersList(UserVO userVO) {
+        HashMap<String, Object> requestParams = new HashMap<>();
+        if (!StringUtils.isEmpty(userVO.getMobile())) {
+            requestParams.put(Constants.SEARCH_MOBILE, userVO.getMobile());
+        }
+        if (!StringUtils.isEmpty(userVO.getNickName())) {
+            requestParams.put(Constants.SEARCH_NICK_NAME, userVO.getNickName());
+        }
+        if (!StringUtils.isEmpty(userVO.getPermission())) {
+            requestParams.put(Constants.SEARCH_PERMISSION, userVO.getPermission());
+        }
+        if (!StringUtils.isEmpty(userVO.getIsDelete())) {
+            requestParams.put(Constants.SEARCH_IS_DELETE, userVO.getIsDelete());
+        }
+        // 分页
+        PageHelper.startPage(userVO.getPage(), userVO.getLimit());
+        List<User> userList = userMapper.findUserList(requestParams);
+
+        return userList;
+    }
+
+
 }

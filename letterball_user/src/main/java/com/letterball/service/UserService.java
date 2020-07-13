@@ -5,6 +5,8 @@ import com.letterball.entity.User;
 import com.letterball.vo.UserVO;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 public interface UserService {
 
     User selectUserByMobile(UserVO userVO);
@@ -22,5 +24,7 @@ public interface UserService {
     ResponseBase deleteUserById(UserVO userVO);
 
     ResponseBase deleteFilesById(UserVO userVO);
+
+    List<User> findUsersList(UserVO userVO);
 
 }

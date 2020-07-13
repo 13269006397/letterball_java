@@ -8,20 +8,13 @@ import com.letterball.service.UserService;
 import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.vo.UserVO;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 
 @RequestMapping("/user")
 @RestController
@@ -117,6 +110,8 @@ public class UserController extends BaseService {
     public  ResponseBase deleteFilesById(@RequestBody UserVO userVO) {
         return userService.deleteFilesById(userVO);
     }
+
+
 
 
 }

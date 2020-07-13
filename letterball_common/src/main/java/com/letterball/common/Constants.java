@@ -23,6 +23,10 @@ public interface Constants {
     public static final String ADD_ERROR                 = "新增失败";
     public static final String FIND_NULL                 = "查询为空";
     public static final String UPDATE_SUCCESS            = "修改成功";
+    public static final String UPLOAD_SUCCESS            = "下载成功";
+    public static final String UPLOAD_ERROR              = "下载错误";
+    public static final String DOWNLOAD_SUCCESS          = "上传成功";
+    public static final String DOWNLOAD_ERROR            = "上传失败";
     public static final String UPDATE_ERROR              = "修改失败";
     public static final String DELETE_SUCCESS            = "删除成功";
     public static final String DELETE_ERROR              = "删除失败";
