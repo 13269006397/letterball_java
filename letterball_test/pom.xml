@@ -9,6 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
+    <dependencies>
+
+    </dependencies>
+
     <artifactId>letterball_test</artifactId>
 
 

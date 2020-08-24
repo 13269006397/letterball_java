@@ -1,5 +1,9 @@
 package com.letterball.controller;
 
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.ResponseBase;
@@ -8,6 +12,7 @@ import com.letterball.service.UserService;
 import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.vo.UserVO;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 @RequestMapping("/user")
 @RestController
@@ -58,7 +65,7 @@ public class UserController extends BaseService {
      */
     @PostMapping("/login/addUser")
     public ResponseBase addUser(@ModelAttribute @Valid UserVO userVO, @RequestParam(name = "files", required = false) MultipartFile[] files) {
-        return userService.addUser(userVO,files);
+        return userService.addUser(userVO, files);
     }
 
     /**
@@ -71,47 +78,51 @@ public class UserController extends BaseService {
 
     /**
      * 查询用户列表
+     *
      * @param userVO
      * @return
      */
     @PostMapping("/findUserList")
-    public  ResponseBase findUserList(@RequestBody UserVO userVO) {
+    public ResponseBase findUserList(@RequestBody UserVO userVO) {
         return userService.findUserList(userVO);
     }
 
 
     /**
      * 查询用户列表
+     *
      * @param userVO
      * @return
      */
     @PostMapping("/deleteUserById")
-    public  ResponseBase deleteUserById(@RequestBody UserVO userVO) {
+    public ResponseBase deleteUserById(@RequestBody UserVO userVO) {
         return userService.deleteUserById(userVO);
     }
 
 
     /**
      * 修改用户状态
+     *
      * @param userVO
      * @return
      */
     @PostMapping("/updateUserStatus")
-    public ResponseBase updateUserStatus(@RequestBody UserVO userVO){
+    public ResponseBase updateUserStatus(@RequestBody UserVO userVO) {
         return userService.updateUserStatus(userVO);
     }
 
     /**
      * 删除修改页面附件
+     *
      * @param userVO
      * @return
      */
     @PostMapping("/deleteFilesById")
-    public  ResponseBase deleteFilesById(@RequestBody UserVO userVO) {
+    public ResponseBase deleteFilesById(@RequestBody UserVO userVO) {
         return userService.deleteFilesById(userVO);
     }
 
-
-
-
 }
+
+
+

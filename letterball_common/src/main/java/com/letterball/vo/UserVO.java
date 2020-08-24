@@ -59,4 +59,13 @@ public class UserVO {
     private String phoneNumber;
 
     private String vfCode;
+
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 }
