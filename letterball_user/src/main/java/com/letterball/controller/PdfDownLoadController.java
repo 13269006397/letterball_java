@@ -23,7 +23,7 @@ import java.util.Date;
 
 @RequestMapping("/pdf")
 @RestController
-public class testController {
+public class PdfDownLoadController {
 
     // 定义全局的字体静态变量
     private static Font titlefont;
