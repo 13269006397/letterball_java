@@ -1,9 +1,5 @@
 package com.letterball.controller;
 
-import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.ResponseBase;
@@ -12,7 +8,6 @@ import com.letterball.service.UserService;
 import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.vo.UserVO;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -20,8 +15,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 @RequestMapping("/user")
 @RestController
