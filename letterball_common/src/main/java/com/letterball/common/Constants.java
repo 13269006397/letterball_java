@@ -32,6 +32,8 @@ public interface Constants {
     public static final String DELETE_ERROR              = "删除失败";
     public static final String EXAMINE_SUCCESS           = "审核通过";
     public static final String EXAMINE_ERROR             = "审核失败";
+    public static final String FILE_NO_FIND              = "文件不存在";
+
 
 
     /*************************************************************************************************/

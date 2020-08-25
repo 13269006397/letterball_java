@@ -16,15 +16,20 @@ import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.utils.TokenUtils;
 import com.letterball.vo.UserVO;
+import org.apache.poi.util.IOUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.transaction.Transactional;
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -433,5 +438,37 @@ public class UserServiceImpl extends BaseService implements UserService {
         return userList;
     }
 
-
+    /**
+     * 根据filePath下载文件
+     */
+    public ResponseBase downLoadFile(@RequestParam("filePath") String filePath, HttpServletRequest request, HttpServletResponse response){
+        OutputStream toClient = null;
+        InputStream in = null;
+        File targetFile = null;
+        String fileName = targetFile.getName();
+        try{
+            response.setContentType("application/octet-stream");
+            response.setHeader("Cache-control","no-cache, no-store, must-revalidate");
+            response.setHeader("Pragma", "no-cache");
+            // 取文件流
+            targetFile = new File(filePath);
+            if (targetFile == null){
+                return setResultError(Constants.FILE_NO_FIND);
+            }
+            response.addHeader("Content-disposition","attachment;filename=" + URLEncoder.encode(fileName));
+            // 客户端输入流
+            toClient = new BufferedOutputStream(response.getOutputStream());
+            in = new FileInputStream(targetFile);
+            // 读取文件输入拷贝到输出流toClient
+            IOUtils.copy(in, toClient);
+            // 输出
+            response.flushBuffer();
+        }catch (Exception e){
+            return setResultError(e.getMessage());
+        }finally {
+            IOUtils.closeQuietly(in);
+            IOUtils.closeQuietly(toClient);
+        }
+        return null;
+    }
 }
