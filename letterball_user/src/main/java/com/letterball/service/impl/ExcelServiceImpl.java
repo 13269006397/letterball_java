@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 
@@ -65,10 +66,10 @@ public class ExcelServiceImpl implements ExcelService {
         HSSFSheet sheet = workbook.createSheet("用户信息表");
         String fileName = "用户信息表"  + ".xls";//设置要导出的文件的名字
 
-        //headers表示excel表中第一行的表头
+        // headers表示excel表中第一行的表头
         List headersColumnName = columnUtils.getColumnName(20,"select * from tb_user");
 
-        //在excel表中添加表头    0行
+        // 在excel表中添加表头    0行
         HSSFRow row = sheet.createRow(0);
         for(int i=0;i<headersColumnName.size();i++){
             HSSFCell cell = row.createCell(i);
@@ -76,6 +77,7 @@ public class ExcelServiceImpl implements ExcelService {
             cell.setCellValue(text);
         }
 
+        // excel数据转码
         HashMap<String, Object> map = new HashMap<>();
         map.put("01","男");
         map.put("02","女");
@@ -111,7 +113,8 @@ public class ExcelServiceImpl implements ExcelService {
             rowNum++;
         }
         response.setContentType("application/octet-stream");
-        response.setHeader("Content-disposition", "attachment;filename=" + fileName);
+        response.setHeader("Content-disposition", "attachment;filename=" + URLEncoder.encode(fileName));
+
         try {
             response.flushBuffer();
             workbook.write(response.getOutputStream());
