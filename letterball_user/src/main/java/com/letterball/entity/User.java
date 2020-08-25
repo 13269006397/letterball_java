@@ -48,4 +48,6 @@ public class User {
     //权限表数据
     private String permission;
 
+    private String fileCode;
+
 }

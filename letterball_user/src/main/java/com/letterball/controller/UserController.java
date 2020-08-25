@@ -73,7 +73,7 @@ public class UserController extends BaseService {
      * 查询用户列表
      *
      * @param userVO
-     * @return
+     * @return ResponseBase
      */
     @PostMapping("/findUserList")
     public ResponseBase findUserList(@RequestBody UserVO userVO) {
@@ -85,7 +85,7 @@ public class UserController extends BaseService {
      * 查询用户列表
      *
      * @param userVO
-     * @return
+     * @return ResponseBase
      */
     @PostMapping("/deleteUserById")
     public ResponseBase deleteUserById(@RequestBody UserVO userVO) {
@@ -97,7 +97,7 @@ public class UserController extends BaseService {
      * 修改用户状态
      *
      * @param userVO
-     * @return
+     * @return ResponseBase
      */
     @PostMapping("/updateUserStatus")
     public ResponseBase updateUserStatus(@RequestBody UserVO userVO) {
@@ -108,7 +108,7 @@ public class UserController extends BaseService {
      * 删除修改页面附件
      *
      * @param userVO
-     * @return
+     * @return ResponseBase
      */
     @PostMapping("/deleteFilesById")
     public ResponseBase deleteFilesById(@RequestBody UserVO userVO) {

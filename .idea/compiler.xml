@@ -7,13 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="letterball_article" />
-        <module name="letterball_base" />
-        <module name="letterball_common" />
         <module name="letterball_qa" />
-        <module name="letterball_recruit" />
-        <module name="letterball_test" />
         <module name="letterball_user" />
+        <module name="letterball_article" />
+        <module name="letterball_common" />
+        <module name="letterball_base" />
+        <module name="letterball_test" />
+        <module name="letterball_recruit" />
       </profile>
     </annotationProcessing>
   </component>
