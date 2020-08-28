@@ -148,7 +148,6 @@ public class UserServiceImpl extends BaseService implements UserService {
     @Transactional
     public ResponseBase addUser(UserVO userVO, MultipartFile[] files) {
         User searchUser = selectUserByMobile(userVO);
-        HashMap<String, Object> resultParams = new HashMap<>();
         User user = new User();
 
 
@@ -156,7 +155,6 @@ public class UserServiceImpl extends BaseService implements UserService {
 
             try {
                 //数据上传
-
                 String userId = new NumberUtils().randomUUID();
                 BeanUtils.copyProperties(userVO, user);
                 //放参数
@@ -191,24 +189,23 @@ public class UserServiceImpl extends BaseService implements UserService {
                         for (int i = 0; i < files.length; i++){
                             //附件id
                             String fileCode = UUID.randomUUID().toString().replace("-", "");
-                            //源文件名称
+                            //原文件名为
                             oriFileName = files[i].getOriginalFilename();
-                            System.err.println("原文件名为" + oriFileName);
                             if ("".equals(oriFileName)){
                                 continue;
                             }
                             in = files[i].getInputStream();
-                            // 新文件名称
+                            // 获得入库文件名
                             fileName = getFileFullName(oriFileName);
                             // 全路径名
                             resourcePath = uploadFile(oriFileName,in,fileName);
 
+                            // 做附件表新增操作
                             FileReport fileReport = new FileReport();
                             fileReport.setUserId(userId);
                             fileReport.setFileCode(fileCode);
                             fileReport.setFilePath(resourcePath);
                             fileReport.setOriFileName(oriFileName);
-                            // 做附件表新增操作
                             fileReportMapper.insetFile(fileReport);
                         }
                     }catch (Exception e){
@@ -319,6 +316,17 @@ public class UserServiceImpl extends BaseService implements UserService {
         HashMap<String, Object> requestParams = new HashMap<>();
         HashMap<String, Object> resultMap = new HashMap<>();
         long total = 0;
+
+        // 先判断redis中是否有值
+        List<User> redisUserList = (List<User>) redisUtils.getValueList("userList");
+        if (redisUserList != null && redisUserList.size()>0){
+            total = Long.parseLong(redisUtils.getKey("userListTotal"));
+            resultMap.put(Constants.COMM_QUERY_RESP_ITEM, redisUserList);
+            resultMap.put(Constants.COMM_QUERY_RESP_TOTAL, total);
+            return setResultSuccessData(resultMap);
+        }
+
+        // redis没存去查表
         if (!StringUtils.isEmpty(userVO.getMobile())) {
             requestParams.put(Constants.SEARCH_MOBILE, userVO.getMobile());
         }
@@ -334,15 +342,22 @@ public class UserServiceImpl extends BaseService implements UserService {
         // 分页
         PageHelper.startPage(userVO.getPage(), userVO.getLimit());
         List<User> userList = userMapper.findUserList(requestParams);
-        total = ((Page<User>) userList).getTotal();
 
+        Page<User> page = (Page<User>) userList;
+        total = page.getTotal();
+
+        // 放Redis下次使用
+        redisUtils.setKeyList("userList", page.getResult());
+        redisUtils.setKeyD("userListTotal",total,1);
+
+        // 返回数据
         resultMap.put(Constants.COMM_QUERY_RESP_ITEM, userList);
         resultMap.put(Constants.COMM_QUERY_RESP_TOTAL, total);
         return setResultSuccessData(resultMap);
     }
 
     /**
-     * 修改用户状态
+     * 修改用户
      * @param userVO
      * @return
      */
@@ -357,9 +372,12 @@ public class UserServiceImpl extends BaseService implements UserService {
         if (!StringUtils.isEmpty(userVO.getIsDelete())){
             user.setIsDelete(userVO.getIsDelete());
         }
-
             try{
                 userMapper.updateUserById(user);
+
+                // 有修改就删除缓存数据
+                redisUtils.remove("userList");
+                redisUtils.remove("userListTotal");
             }catch (Exception e){
                 return setResultError(Constants.UPDATE_ERROR);
         }
@@ -382,6 +400,10 @@ public class UserServiceImpl extends BaseService implements UserService {
                 fileReportMapper.deleteFileById(id);
                 //  删除角色信息
                 permissionMapper.deletePermissionById(id);
+
+                // 有修改就删除缓存数据
+                redisUtils.remove("userList");
+                redisUtils.remove("userListTotal");
             }
         }catch (Exception e){
             return setResultError(Constants.DELETE_ERROR);

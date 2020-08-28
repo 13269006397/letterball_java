@@ -94,7 +94,7 @@ public class UserController extends BaseService {
 
 
     /**
-     * 修改用户状态
+     * 修改用户
      *
      * @param userVO
      * @return ResponseBase

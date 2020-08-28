@@ -7,10 +7,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Repository
-public class RedisUtils {
+public class  RedisUtils {
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
@@ -48,6 +49,10 @@ public class RedisUtils {
         redisTemplate.opsForValue().set(key, value.toString(), time, TimeUnit.MINUTES.DAYS);
     }
 
+    // 缓存list
+    public void setKeyList(String key, List list){
+        redisTemplate.opsForList().leftPushAll(key, list);
+    }
 
     /**
      *根据key获取缓存
@@ -56,6 +61,10 @@ public class RedisUtils {
         return redisTemplate.opsForValue().get(key).toString();
     }
 
+    // 获取Redis数据
+    public List getValueList(String key){
+        return redisTemplate.opsForList().range(key, 0 , -1);
+    }
 
 
 

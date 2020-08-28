@@ -36,6 +36,11 @@ public interface UserMapper {
      */
     User findUserById(HashMap<String,Object> map);
 
+    /**
+     * 修改用户
+     * @param record
+     * @return
+     */
     int updateUserById(User record);
 
     int updateByPrimaryKey(User record);
