@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -54,11 +55,13 @@ public class PdfDownLoadController {
     public void download(HttpServletResponse response){
         try ( ServletOutputStream outputStream = response.getOutputStream()) {
 
+            String fileName = company+"-现场检查通知书.pdf";
+
             response.setContentType("application/octet-stream");
             response.setHeader("Cache-control","no-cache, no-store, must-revalidate");
             response.setHeader("pragma","no-cache");
+            response.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(fileName));
 
-            response.addHeader("Content-Disposition","attachement;filename=gsdgf.pdf");
 
             // 1.新建document对象
             Document document = new Document(PageSize.A4.rotate());// 建立一个Document对象
@@ -68,9 +71,6 @@ public class PdfDownLoadController {
 
             SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy年MM月dd日");
             String nowDate = sdf1.format(new Date());
-
-            String filePath = "D:/opt/filePath/";
-            String fileName = company+"-现场检查通知书("+nowTime+").pdf";
 
             // 2.建立一个书写器(Writer)与document对象关联
             PdfWriter.getInstance(document, outputStream);
@@ -194,7 +194,6 @@ public class PdfDownLoadController {
             body8.setSpacingBefore(5f); //设置段落上空白
             body8.setSpacingAfter(5f); //设置段落下空白
 
-
             document.add(paragraph);
             document.add(tital);
             document.add(companyName);
@@ -208,22 +207,9 @@ public class PdfDownLoadController {
             document.add(body7);
             document.add(body8);
 
-
             // 5.关闭文档
             document.close();
 
-
-
-//            // 输入到页面
-//            InputStream in = null;
-//
-//            // 文件流
-//            in =new FileInputStream(filePath+fileName);
-//
-//            byte[] bytes = new byte[in.available()];
-//            in.read(bytes);
-//
-//            return ResponseEntity.ok().body(bytes);
         } catch (Exception e) {
             e.printStackTrace();
         }
