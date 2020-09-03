@@ -27,4 +27,7 @@ public interface UserService {
 
     List<User> findUsersList(UserVO userVO);
 
+    ResponseBase findUserList1(UserVO userVO);
+
+
 }

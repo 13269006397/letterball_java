@@ -70,7 +70,7 @@ public class UserController extends BaseService {
     }
 
     /**
-     * 查询用户列表
+     * 查询用户列表 Redis
      *
      * @param userVO
      * @return ResponseBase
@@ -78,6 +78,17 @@ public class UserController extends BaseService {
     @PostMapping("/findUserList")
     public ResponseBase findUserList(@RequestBody UserVO userVO) {
         return userService.findUserList(userVO);
+    }
+
+    /**
+     * 查询用户列表
+     *
+     * @param userVO
+     * @return ResponseBase
+     */
+    @PostMapping("/findUserList1")
+    public ResponseBase findUserList1(@RequestBody UserVO userVO) {
+        return userService.findUserList1(userVO);
     }
 
 

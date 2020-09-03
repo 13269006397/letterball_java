@@ -22,11 +22,11 @@ public interface Constants {
     public static final String ADD_SUCCESS               = "新增成功";
     public static final String ADD_ERROR                 = "新增失败";
     public static final String FIND_NULL                 = "查询为空";
-    public static final String UPDATE_SUCCESS            = "修改成功";
     public static final String UPLOAD_SUCCESS            = "下载成功";
     public static final String UPLOAD_ERROR              = "下载错误";
     public static final String DOWNLOAD_SUCCESS          = "上传成功";
     public static final String DOWNLOAD_ERROR            = "上传失败";
+    public static final String UPDATE_SUCCESS            = "修改成功";
     public static final String UPDATE_ERROR              = "修改失败";
     public static final String DELETE_SUCCESS            = "删除成功";
     public static final String DELETE_ERROR              = "删除失败";
@@ -85,6 +85,7 @@ public interface Constants {
     public static final String SEARCH_MOBILE             = "mobile";
     public static final String SEARCH_LOGIN_TOKEN        = "token";
     public static final String SEARCH_USER_ID            = "id";
+    public static final String SEARCH_NAME               = "name";
     public static final String SEARCH_USER_PERMISSION    = "permission";
     public static final String SEARCH_USER               = "user";
     public static final String SEARCH_NICK_NAME          = "nickName";

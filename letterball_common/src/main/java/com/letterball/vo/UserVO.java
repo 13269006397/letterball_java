@@ -60,12 +60,7 @@ public class UserVO {
 
     private String vfCode;
 
+    private String name;
 
-    public String getMobile() {
-        return mobile;
-    }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
 }

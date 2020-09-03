@@ -348,7 +348,7 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         // 放Redis下次使用
         redisUtils.setKeyList("userList", page.getResult());
-        redisUtils.setKeyD("userListTotal",total,1);
+        redisUtils.setKeyD("userListTotal",total,365);
 
         // 返回数据
         resultMap.put(Constants.COMM_QUERY_RESP_ITEM, userList);
@@ -433,11 +433,6 @@ public class UserServiceImpl extends BaseService implements UserService {
         return setResultSuccessMsg(Constants.DELETE_SUCCESS);
     }
 
-    /**
-     * 查询用户列表 返回list
-     * @param userVO
-     * @return
-     */
     @Override
     public List<User> findUsersList(UserVO userVO) {
         HashMap<String, Object> requestParams = new HashMap<>();
@@ -459,6 +454,35 @@ public class UserServiceImpl extends BaseService implements UserService {
 
         return userList;
     }
+
+    @Override
+    public ResponseBase findUserList1(UserVO userVO) {
+        HashMap<String, Object> resultMap = new HashMap<>();
+        HashMap<String, Object> requestParams = new HashMap<>();
+        long total = 0;
+        if (!StringUtils.isEmpty(userVO.getMobile())) {
+            requestParams.put(Constants.SEARCH_MOBILE, userVO.getMobile());
+        }
+        if (!StringUtils.isEmpty(userVO.getNickName())) {
+            requestParams.put(Constants.SEARCH_NICK_NAME, userVO.getNickName());
+        }
+        if (!StringUtils.isEmpty(userVO.getPermission())) {
+            requestParams.put(Constants.SEARCH_PERMISSION, userVO.getPermission());
+        }
+        if (!StringUtils.isEmpty(userVO.getIsDelete())) {
+            requestParams.put(Constants.SEARCH_IS_DELETE, userVO.getIsDelete());
+        }
+        // 分页
+        PageHelper.startPage(userVO.getPage(), userVO.getLimit());
+        List<User> userList = userMapper.findUserList(requestParams);
+        Page<User> page = (Page<User>) userList;
+        total = page.getTotal();
+        // 返回数据
+        resultMap.put(Constants.COMM_QUERY_RESP_ITEM, userList);
+        resultMap.put(Constants.COMM_QUERY_RESP_TOTAL, total);
+        return setResultSuccessData(resultMap);
+    }
+
 
     /**
      * 根据filePath下载文件
