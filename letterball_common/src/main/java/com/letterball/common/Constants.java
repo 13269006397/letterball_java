@@ -93,6 +93,8 @@ public interface Constants {
     public static final String SEARCH_IS_DELETE          = "isDelete";
     public static final String REPORT_FILE_LIST          = "reportFileList";
     public static final String REPORT_FILE_ID            = "fileId";
+    public static final String LOGIN_AVATAR              = "avatar";
+
 
 
 }

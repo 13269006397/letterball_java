@@ -98,6 +98,7 @@ public class UserServiceImpl extends BaseService implements UserService {
                     resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
                     resultParams.put(Constants.SEARCH_USER_ID, user.getId());
                     resultParams.put(Constants.SEARCH_USER_PERMISSION, user.getPermission());
+                    resultParams.put(Constants.LOGIN_AVATAR, user.getAvatar());
 
                     //修改最后登陆时间
                     user.setLastTime(new Date());
@@ -125,6 +126,7 @@ public class UserServiceImpl extends BaseService implements UserService {
                     resultParams.put(Constants.SEARCH_LOGIN_TOKEN, token);
                     resultParams.put(Constants.SEARCH_USER_ID, user.getId());
                     resultParams.put(Constants.SEARCH_USER_PERMISSION, user.getPermission());
+                    resultParams.put(Constants.LOGIN_AVATAR, user.getAvatar());
 
                     //修改最后登陆时间
                     user.setLastTime(new Date());
