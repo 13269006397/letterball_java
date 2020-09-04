@@ -5,6 +5,7 @@ import com.letterball.common.Constants;
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.User;
 import com.letterball.service.UserService;
+import com.letterball.utils.AliYunOssUtils;
 import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.vo.UserVO;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RequestMapping("/user")
 @RestController
@@ -25,6 +27,9 @@ public class UserController extends BaseService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AliYunOssUtils aliYunOssUtils;
 
     /**
      * 生成并保存验证码
@@ -126,6 +131,20 @@ public class UserController extends BaseService {
         return userService.deleteFilesById(userVO);
     }
 
+    /**
+     * 上传
+     */
+    @PostMapping("/upAvater")
+    public void upTest(MultipartFile file){
+        //  用户头像上传路径
+        String path = "edu_avatar";
+
+        try {
+            String filePath = aliYunOssUtils.AliYunOSSUpload(file, path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
 
 

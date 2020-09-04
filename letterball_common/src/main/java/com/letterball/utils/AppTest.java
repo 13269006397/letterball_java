@@ -2,9 +2,12 @@ package com.letterball.utils;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 
 
@@ -60,5 +63,27 @@ public class AppTest {
             System.out.println(i);
             i++;
         }
+    }
+
+    /**
+     * URLEncoder转码   转码为码值
+     */
+    @Test
+    public void urlEncode() throws UnsupportedEncodingException {
+
+        String name=java.net.URLEncoder.encode("雷军.jpg", "UTF-8");
+        //  %E9%9B%B7%E5%86%9B.jpg
+        System.out.println(name);
+
+    }
+
+    /**
+     * URLEncoder解码  解码
+     */
+    @Test
+    public void urlDecode(){
+        String name = "%E9%9B%B7%E5%86%9B.jpg";
+        //  雷军.jpg
+        System.err.println(URLDecoder.decode(name));
     }
 }
