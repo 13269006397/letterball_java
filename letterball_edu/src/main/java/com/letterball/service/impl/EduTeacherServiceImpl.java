@@ -11,7 +11,9 @@ import com.letterball.service.EduTeacherService;
 import com.letterball.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -47,6 +49,8 @@ public class EduTeacherServiceImpl extends BaseService implements EduTeacherServ
     public ResponseBase updateEduTeacher(Teacher teacher) {
         try {
             if (null != teacher){
+                // 更新时间
+                teacher.setGmtModified(new Date());
                 teacherMapper.updateEduTeacher(teacher);
                 return setResultSuccessMsg(Constants.UPDATE_SUCCESS);
             }
@@ -54,5 +58,21 @@ public class EduTeacherServiceImpl extends BaseService implements EduTeacherServ
             return setResultError(Constants.UPDATE_ERROR);
         }
         return null;
+    }
+
+    @Override
+    public ResponseBase findTeacherById(UserVO userVO) {
+        HashMap<String, Object> requestParams = new HashMap<>();
+        HashMap<String, Object> resultMap = new HashMap<>();
+        Teacher teacher = new Teacher();
+
+        if (!StringUtils.isEmpty(userVO.getId())){
+            requestParams.put(Constants.SEARCH_USER_ID, userVO.getId());
+            teacher = teacherMapper.findTeacherById(requestParams);
+
+        }
+        resultMap.put(Constants.COMM_QUERY_RESP_ITEM, teacher);
+
+        return setResultSuccessData(resultMap);
     }
 }

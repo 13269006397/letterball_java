@@ -21,9 +21,12 @@ public interface TeacherMapper {
 
     int updateByPrimaryKey(Teacher record);
 
-    //  讲师列表
+    // 讲师列表
     List<Teacher> findTeacherList(HashMap<String, Object> map);
 
-    //  修改讲师
+    // 修改讲师
     int updateEduTeacher(Teacher record);
+
+    // 根据id查询讲师
+    Teacher findTeacherById(HashMap<String, Object> map);
 }

@@ -50,6 +50,26 @@
   </select>
 
 
+  <select id="findTeacherById" resultMap="BaseResultMap" parameterType="map" >
+    select
+    t.id,
+    t.NAME,
+    t.intro,
+    t.career,
+    t.LEVEL,
+    t.avatar,
+    t.sort,
+    t.is_deleted,
+    t.gmt_create,
+    t.gmt_modified
+    from edu_teacher t
+    where 1 =1
+    <if test="id != null and id != ''" >
+      AND t.id = #{id,jdbcType=VARCHAR}
+    </if>
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
 
     delete from edu_teacher

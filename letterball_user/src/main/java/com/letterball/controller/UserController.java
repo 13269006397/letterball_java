@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.HashMap;
 
 @RequestMapping("/user")
 @RestController
@@ -135,14 +136,18 @@ public class UserController extends BaseService {
      * 上传
      */
     @PostMapping("/upAvater")
-    public void upTest(MultipartFile file){
+    public ResponseBase upTest(MultipartFile file){
+        HashMap<String, Object> resultMap = new HashMap<>();
+
         //  用户头像上传路径
         String path = "edu_avatar";
 
         try {
             String filePath = aliYunOssUtils.AliYunOSSUpload(file, path);
+            resultMap.put(Constants.COMM_QUERY_RESP_ITEM, filePath);
+            return setResultSuccessData(resultMap);
         } catch (IOException e) {
-            e.printStackTrace();
+            return setResultError(Constants.DOWNLOAD_ERROR);
         }
     }
 }

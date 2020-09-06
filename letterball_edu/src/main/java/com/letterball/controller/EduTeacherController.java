@@ -36,4 +36,12 @@ public class EduTeacherController {
         return eduTeacherService.updateEduTeacher(teacher);
     }
 
+    /**
+     * 根据id查询讲师信息
+     */
+    @RequestMapping("/findTeacherById")
+    public ResponseBase findTeacherById(@RequestBody UserVO userVO){
+        return eduTeacherService.findTeacherById(userVO);
+    }
+
 }
