@@ -1,13 +1,17 @@
 package com.letterball.utils;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 
@@ -15,6 +19,9 @@ import java.util.List;
  * 测试类
  */
 public class AppTest {
+
+    @Autowired
+    private DateUtils dateUtils;
 
     @Test
     public void getTestCode(){
@@ -85,5 +92,14 @@ public class AppTest {
         String name = "%E9%9B%B7%E5%86%9B.jpg";
         //  雷军.jpg
         System.err.println(URLDecoder.decode(name));
+    }
+
+    @Test
+    public void DateTest(){
+        Date date = new Date();
+        System.err.println(date);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String format = simpleDateFormat.format(date);
+        System.out.println(format);
     }
 }
