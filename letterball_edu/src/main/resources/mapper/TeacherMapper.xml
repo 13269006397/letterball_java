@@ -86,7 +86,7 @@
       #{sort,jdbcType=INTEGER}, #{isDeleted,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=TIMESTAMP},
       #{gmtModified,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.letterball.entity.Teacher" >
+  <insert id="insertTeacher" parameterType="com.letterball.entity.Teacher" >
 
     insert into edu_teacher
     <trim prefix="(" suffix=")" suffixOverrides="," >

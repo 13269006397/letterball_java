@@ -21,7 +21,15 @@ public class IsDelete implements Converter<String> {
     @Override
     public String convertToJavaData(CellData cellData, ExcelContentProperty contentProperty,
                                     GlobalConfiguration globalConfiguration) {
-        return cellData.getStringValue();
+        if (null == cellData.getStringValue()){
+            return "未知";
+        }else if (cellData.getStringValue().equals("冻结")) {
+            return "1";
+        }else if (cellData.getStringValue().equals("正常")) {
+            return "0";
+        }else {
+            return "99";
+        }
     }
 
     @Override
@@ -34,7 +42,11 @@ public class IsDelete implements Converter<String> {
             return new CellData("正常");
         } else if (value.equals("02")) {
             return new CellData("冻结");
-        } else {
+        } else if (value.equals("1")) {
+            return new CellData("冻结");
+        } else if (value.equals("0")) {
+            return new CellData("正常");
+        }else {
             return new CellData("未知");
         }
     }
