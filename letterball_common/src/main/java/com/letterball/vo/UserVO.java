@@ -1,5 +1,6 @@
 package com.letterball.vo;
 
+import com.letterball.entity.Subject;
 import lombok.Data;
 
 import java.util.Date;
@@ -61,6 +62,12 @@ public class UserVO {
     private String vfCode;
 
     private String name;
+
+    private String parentId;
+
+    private Integer sort;
+
+    private String title;
 
 
 }
