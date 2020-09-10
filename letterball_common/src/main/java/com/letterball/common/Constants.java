@@ -94,6 +94,8 @@ public interface Constants {
     public static final String REPORT_FILE_LIST          = "reportFileList";
     public static final String REPORT_FILE_ID            = "fileId";
     public static final String LOGIN_AVATAR              = "avatar";
+    public static final String SYS_TITLE                 = "title";
+
 
 
 

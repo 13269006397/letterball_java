@@ -5,13 +5,13 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class Subject {
+public class Chapter {
 
     private String id;
 
-    private String title;
+    private String courseId;
 
-    private String parentId;
+    private String title;
 
     private Integer sort;
 
