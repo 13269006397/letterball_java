@@ -40,13 +40,16 @@ public class CourseServiceImpl extends BaseService implements CourseService {
 
 
         // 1.增加课程主表(course)信息
+        Course addCourseModel = courseVO.getAddCourseModel();
+
         Date dataNow = new Date();
         Course course = new Course();
-        BeanUtils.copyProperties(courseVO, course);
+        BeanUtils.copyProperties(addCourseModel, course);
         String id = "kc" + UUID.randomUUID().toString().replace("-", "").substring(0,16);
         course.setId(id);
         //设置未删除
         course.setIsDeleted("0");
+        course.setStatus(addCourseModel.getStatus());
         course.setGmtCreate(dataNow);
         course.setGmtModified(dataNow);
         int addCourse = courseMapper.addCourse(course);
@@ -57,7 +60,7 @@ public class CourseServiceImpl extends BaseService implements CourseService {
         // 2.增加课程 简介表(Description)信息
         CourseDescription courseDescription = new CourseDescription();
         courseDescription.setId(id);
-        courseDescription.setDescription(courseVO.getDescription());
+        courseDescription.setDescription(addCourseModel.getDescription());
         courseDescription.setGmtCreate(dataNow);
         courseDescription.setGmtModified(dataNow);
         int addDescription = courseDescriptionMapper.addCourseSelective(courseDescription);

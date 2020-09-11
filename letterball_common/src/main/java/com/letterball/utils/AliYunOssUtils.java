@@ -9,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 
 @Repository
@@ -41,8 +43,10 @@ public class AliYunOssUtils {
         String uuid = UUID.randomUUID().toString().replaceAll("-","");
         String fileName = uuid + file.getOriginalFilename();
 
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String dataNow = simpleDateFormat.format(new Date());
         // <yourObjectName>上传文件到OSS时需要指定包含文件后缀在内的完整路径，例如abc/efg/123.jpg。
-        String objectName = upFilePath+ "/" + fileName;
+        String objectName = upFilePath+ "/" + dataNow + "/" + fileName;
 
         String filePath= "";
 
@@ -54,7 +58,7 @@ public class AliYunOssUtils {
             InputStream inputStream = file.getInputStream();
             ossClient.putObject(bucketName, objectName, inputStream);
             // 取回上传到oss的文件路径 https://xinqiu-007.oss-cn-beijing.aliyuncs.com/edu_avatar/2019-06-29%20210413.jpg
-            filePath = "https://" + bucketName + "." + endpoint + "/" + upFilePath + "/" + URLEncoder.encode(fileName);
+            filePath = "https://" + bucketName + "." + endpoint + "/" + upFilePath + "/" + dataNow + "/" + URLEncoder.encode(fileName);
 
         }catch (Exception e){
             return Constants.DOWNLOAD_ERROR;

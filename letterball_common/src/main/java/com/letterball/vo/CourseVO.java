@@ -3,6 +3,7 @@ package com.letterball.vo;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.letterball.converter.IsDelete;
 import com.letterball.converter.IsLevel;
+import com.letterball.entity.Course;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -91,5 +92,6 @@ public class CourseVO {
 
     private Long size;
 
-
+    // 新增得课程内容
+    private Course addCourseModel;
 }

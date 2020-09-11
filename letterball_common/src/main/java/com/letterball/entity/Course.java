@@ -44,4 +44,7 @@ public class Course {
 
     private String subjectParentName;
 
+    // 简介
+    private String description;
+
 }

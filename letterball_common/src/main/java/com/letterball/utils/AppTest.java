@@ -98,7 +98,7 @@ public class AppTest {
     public void DateTest(){
         Date date = new Date();
         System.err.println(date);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         String format = simpleDateFormat.format(date);
         System.out.println(format);
     }
