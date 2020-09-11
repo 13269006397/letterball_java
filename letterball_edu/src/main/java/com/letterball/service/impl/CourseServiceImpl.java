@@ -14,6 +14,7 @@ import com.letterball.vo.CourseVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -36,6 +37,7 @@ public class CourseServiceImpl extends BaseService implements CourseService {
      * @return
      */
     @Override
+    @Transactional
     public ResponseBase addCourse(CourseVO courseVO) {
 
 
@@ -67,8 +69,6 @@ public class CourseServiceImpl extends BaseService implements CourseService {
         if (addDescription <= 0){
             return setResultError(Constants.ADD_ERROR);
         }
-
-
 
         return setResultSuccessMsg(Constants.ADD_SUCCESS);
     }
