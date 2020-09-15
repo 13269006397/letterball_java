@@ -23,6 +23,23 @@
     where id = #{id,jdbcType=CHAR}
   </select>
 
+  <select id="findAllChapter" resultMap="BaseResultMap" parameterType="map">
+    SELECT
+        id,
+        course_id,
+        title,
+        sort,
+        gmt_create,
+        gmt_modified
+    FROM
+        edu_chapter
+        WHERE 1=1
+        <if test="courseId != null">
+          AND course_id = #{courseId, jdbcType=CHAR}
+        </if>
+        order by sort asc
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from edu_chapter
     where id = #{id,jdbcType=CHAR}

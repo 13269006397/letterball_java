@@ -95,6 +95,7 @@ public interface Constants {
     public static final String REPORT_FILE_ID            = "fileId";
     public static final String LOGIN_AVATAR              = "avatar";
     public static final String SYS_TITLE                 = "title";
+    public static final String COURSE_ID                 = "courseId";
 
 
 
