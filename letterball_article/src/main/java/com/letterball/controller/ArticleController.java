@@ -6,7 +6,7 @@ import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.Article;
 import com.letterball.entity.ResponseBase;
-import com.letterball.service.ArticleSerivce;
+import com.letterball.Service.ArticleSerivce;
 import com.letterball.utils.RedisUtils;
 import com.letterball.vo.ArticleVO;
 import org.springframework.beans.factory.annotation.Autowired;

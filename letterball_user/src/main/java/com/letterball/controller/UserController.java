@@ -2,13 +2,16 @@ package com.letterball.controller;
 
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
+import com.letterball.entity.ExcelErrorRecord;
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.User;
-import com.letterball.service.UserService;
+import com.letterball.Service.UserService;
 import com.letterball.utils.AliYunOssUtils;
 import com.letterball.utils.NumberUtils;
 import com.letterball.utils.RedisUtils;
 import com.letterball.vo.UserVO;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +20,16 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
+/**
+ * 用户模块
+ */
 @RequestMapping("/user")
 @RestController
 public class UserController extends BaseService {
@@ -99,7 +110,7 @@ public class UserController extends BaseService {
 
 
     /**
-     * 查询用户列表
+     * 删除用户
      *
      * @param userVO
      * @return ResponseBase
@@ -150,6 +161,7 @@ public class UserController extends BaseService {
             return setResultError(Constants.DOWNLOAD_ERROR);
         }
     }
+
 }
 
 

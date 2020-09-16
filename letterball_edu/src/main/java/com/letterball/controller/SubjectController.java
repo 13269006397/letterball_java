@@ -1,7 +1,7 @@
 package com.letterball.controller;
 
 import com.letterball.entity.ResponseBase;
-import com.letterball.service.SubjectService;
+import com.letterball.Service.SubjectService;
 import com.letterball.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

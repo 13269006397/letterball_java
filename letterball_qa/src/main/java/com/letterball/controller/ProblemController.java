@@ -6,7 +6,7 @@ import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.Problem;
 import com.letterball.entity.ResponseBase;
-import com.letterball.service.ProblemService;
+import com.letterball.Service.ProblemService;
 import com.letterball.vo.ProblemVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

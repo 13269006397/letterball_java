@@ -16,6 +16,7 @@
         <module>letterball_user</module>
         <module>letterball_test</module>
         <module>letterball_edu</module>
+        <module>letterball_service</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

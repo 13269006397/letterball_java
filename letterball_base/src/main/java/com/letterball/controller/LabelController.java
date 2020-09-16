@@ -6,7 +6,7 @@ import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.Label;
-import com.letterball.service.LabelService;
+import com.letterball.Service.LabelService;
 import com.letterball.vo.LabelVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

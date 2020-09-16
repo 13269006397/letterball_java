@@ -1,0 +1,35 @@
+server:
+  port: 9010
+spring:
+  #数据源
+  datasource:
+    url: jdbc:mysql://192.168.198.129:3306/tensquare_user?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+      #文件大小 MB必须大写
+      #  maxFileSize 是单个文件大小
+      #  maxRequestSize是设置总上传的数据大小
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 20MB
+      max-request-size: 20MB
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.letterball.entity
+    #开启驼峰命名
+  configuration:
+    map-underscore-to-camel-case: true
+      # spring boot集成mybatis的方式打印sql
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+pagehelper:
+  helper-dialect: mysql # 指定数据库	可以不配置，插件会自动检测数据库的类型
+  reasonable: true #分页合理化 当该参数设置为 true 时，pageNum<=0 时会查询第一页， pageNum>pages（超过总数时），会查询最后一页。默认false 时，直接根据参数进行查询。
+  support-methods-arguments: true
+  pageSizeZero: false #为true时，第零页显示全部
+  params: count=countSqls
+logging:
+  level:
+    com.letterball.mapper: debug
+

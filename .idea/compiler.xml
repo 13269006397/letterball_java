@@ -15,6 +15,7 @@
         <module name="letterball_base" />
         <module name="letterball_test" />
         <module name="letterball_recruit" />
+        <module name="letterball_service" />
       </profile>
     </annotationProcessing>
   </component>
@@ -26,6 +27,7 @@
       <module name="letterball_edu" options="-parameters" />
       <module name="letterball_qa" options="-parameters" />
       <module name="letterball_recruit" options="-parameters" />
+      <module name="letterball_service" options="-parameters" />
       <module name="letterball_test" options="-parameters" />
       <module name="letterball_user" options="-parameters" />
     </option>

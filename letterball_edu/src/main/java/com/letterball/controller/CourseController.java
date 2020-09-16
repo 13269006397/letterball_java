@@ -1,7 +1,7 @@
 package com.letterball.controller;
 
 import com.letterball.entity.ResponseBase;
-import com.letterball.service.CourseService;
+import com.letterball.Service.CourseService;
 import com.letterball.vo.CourseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

@@ -2,7 +2,7 @@ package com.letterball.controller;
 
 import com.letterball.entity.ResponseBase;
 import com.letterball.entity.Teacher;
-import com.letterball.service.EduTeacherService;
+import com.letterball.Service.EduTeacherService;
 import com.letterball.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

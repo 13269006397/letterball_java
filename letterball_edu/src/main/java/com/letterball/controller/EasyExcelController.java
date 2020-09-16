@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * 讲师管理 导出
+ * 讲师管理 导出  easyExcel 导出导入
  */
 @RequestMapping("/easyExcel")
 @RestController

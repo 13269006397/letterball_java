@@ -22,6 +22,7 @@ public class Teacher {
     @ExcelProperty(value = "讲师资历", index = 3)
     private String career;
 
+    // 导出 导入得时候 用converter 做 码值和String字符串的转换
     @ExcelProperty(value = "讲师头衔", converter = IsLevel.class, index = 4)
     private Integer level;
 

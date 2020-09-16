@@ -14,6 +14,7 @@ public interface Constants {
     public static final String ERROR_LOGIN_USER_NAME     = "账号不存在，请重新输入！";
     public static final String ERROR_LOGIN_USER          = "账号已经被冻结，请联系管理员处理!!";
     public static final String SUCCESS_LOGIN             = "登陆成功";
+    public static final String SUCCESS_SEARCH            = "查询成功";
     public static final String ERROR_LOGIN_ERROR         = "登陆错误";
     public static final String ERROR_LOGIN__NOPHONE      = "请输入手机号";
     public static final String ERROR_SEND_QCORE          = "验证码发送失败";
@@ -33,6 +34,13 @@ public interface Constants {
     public static final String EXAMINE_SUCCESS           = "审核通过";
     public static final String EXAMINE_ERROR             = "审核失败";
     public static final String FILE_NO_FIND              = "文件不存在";
+    public static final String CELL_NOT_NULL             = "列不能为空!";
+    public static final String SUM_ERR                   = "列合计错误!";
+    public static final String E10_E18_ERR               = "当 (E18列)其中：本年度累计跨省收购不良资产投资额 > 0时 (E10)从事跨省收购不良资产 应为1  反之 为0";
+
+
+
+
 
 
 

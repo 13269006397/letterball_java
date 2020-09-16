@@ -6,7 +6,7 @@ import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.Recruit;
 import com.letterball.entity.ResponseBase;
-import com.letterball.service.RecruitService;
+import com.letterball.Service.RecruitService;
 import com.letterball.vo.RecruitVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
