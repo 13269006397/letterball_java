@@ -25,12 +25,13 @@ public class ExcelDataJY {
      * @param file
      * @return
      */
-    // 1. 文件 获得inputSteam输入流
+    // 1. 文件 获得inputSteam输入流  字节输入流
     // 2. 将文件 new XSSFWorkbook 生成Excel数据
     // 3. 获得sheet页
     // 4. sheet.getRow(?) 获得第几行 数据
     // 5. row.getCell(?) 获得行中某列数据
     // 6. getStringValue 提取列中数据
+    // 7.按业务做数据校验
     @PostMapping("/readExcel")
     public HashMap readExcel(MultipartFile file) {
         Workbook workbook = null;
@@ -41,8 +42,10 @@ public class ExcelDataJY {
         HashMap<String, String> allMap = new HashMap<>();
 
         try{
+            // 获得字节输入流
             InputStream in = file.getInputStream();
             workbook = new XSSFWorkbook(in);
+
 
             // 1.获取Excel表单
             sheet = workbook.getSheetAt(0);
