@@ -51,16 +51,17 @@ public class ExcelDataJY {
             sheet = workbook.getSheetAt(0);
 
             for(int rowNum = 7; rowNum < 33; rowNum++) {
-                //获得第一行
+                // 获得第一行
                 row = sheet.getRow(rowNum);
 
-                //第三列数据
+                // 第三列单元格
                 Cell cell1 = row.getCell(2);
-                //第四列数据
+                // 第四列单元格
                 Cell cell2 = row.getCell(3);
-                //第五列数据
+                // 第四列单元格
                 Cell cell3 = row.getCell(4);
 
+                // 获取单元格数据
                 allMap.put("C"+(rowNum+1), getStringValue(cell1));
                 allMap.put("D"+(rowNum+1), getStringValue(cell2));
                 allMap.put("E"+(rowNum+1), getStringValue(cell3));
