@@ -1,0 +1,29 @@
+{
+"succcess": true,
+"msg": "成功",
+"statusCode": "SUCCESS",
+"data": {
+    "nodes":[
+        {"addflag":"false",
+        "name": "阿德哇哇哇哇大无畏"
+        },
+        {"addflag":"false",
+        "name": "瓦达达娃达娃"
+        },
+        {"addflag":"true",
+        "name": "333333"
+        }
+    ],
+    "linkes":[
+        {"id": "11111",
+        "name": "啊达瓦达瓦伟大无私风格化法国"
+        },
+        {"id": "222222",
+        "name": "马斯克"
+        },
+        {"id": "33333",
+        "name": "钢铁侠"
+        }
+    ]
+}
+}
