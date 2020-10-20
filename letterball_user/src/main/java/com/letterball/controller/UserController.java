@@ -1,5 +1,6 @@
 package com.letterball.controller;
 
+import com.aliyuncs.exceptions.ClientException;
 import com.letterball.common.BaseService;
 import com.letterball.common.Constants;
 import com.letterball.entity.ResponseBase;
@@ -36,18 +37,32 @@ public class UserController extends BaseService {
     @Autowired
     private AliYunOssUtils aliYunOssUtils;
 
+    @Autowired
+    private AliMsgServer aliMsgServer;
+
     /**
      * 生成并保存验证码
      */
     @PostMapping("/login/findSetVFCode")
-    public ResponseBase findSetVFCode(@RequestBody UserVO userVO) {
+    public ResponseBase findSetVFCode(@RequestBody UserVO userVO) throws ClientException {
         //查询发送验证码手机号是否存在
         User user = userService.selectUserByMobile(userVO);
         if (!StringUtils.isEmpty(user)) {
             String mobile = userVO.getMobile();
-            //生成验证码
-            String vfCode = new NumberUtils().randomCode();
-            redisUtils.setKeyS(mobile, vfCode, 60);
+
+            try {
+                // 生成验证码存入Redis
+                String vfCode = new NumberUtils().randomCode();
+                redisUtils.setKeyS(mobile, vfCode, 60);
+
+                //调用aliyun发送短信验证码
+                UserVO sendMsgVO = new UserVO();
+                sendMsgVO.setMobile(mobile);
+                sendMsgVO.setVfCode(vfCode);
+                aliMsgServer.sendMsg(sendMsgVO);
+            }catch (ClientException e){
+                return setResultError(Constants.ERROR_SEND_QCORE);
+            }
         } else {
             return setResultError(Constants.ERROR_SEND_QCORE);
         }
