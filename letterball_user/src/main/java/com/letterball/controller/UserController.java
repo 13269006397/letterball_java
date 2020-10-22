@@ -152,7 +152,7 @@ public class UserController extends BaseService {
     }
 
     /**
-     * 上传
+     * 头像上传
      */
     @PostMapping("/upAvater")
     public ResponseBase upTest(MultipartFile file){
