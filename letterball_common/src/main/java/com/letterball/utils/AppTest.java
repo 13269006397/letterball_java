@@ -3,9 +3,10 @@ package com.letterball.utils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -13,9 +14,6 @@ import java.util.*;
  * 测试类
  */
 public class AppTest {
-
-    @Autowired
-    private DateUtils dateUtils;
 
     @Test
     public void getTestCode(){
@@ -89,33 +87,19 @@ public class AppTest {
     }
 
     /**
-     * 时间格式化
+     * 图片压缩
      */
     @Test
-    public void DateTest(){
-        Date date = new Date();
-        System.err.println(date);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = simpleDateFormat.format(date);
-        System.out.println(format);
-    }
+    public void jpgTest(){
+        File file = new File("D:/myProject/photo/天气之子4k壁纸3840x2160_彼岸图网.jpg");
+        String newFilePath = "D:/myProject/photo/abcd123.jpg";
 
-
-    /**
-     * 得到几天前的时间
-     */
-    @Test
-    public void getDateBefore(){
-        Date date = new Date();
-        // 往前推的时间天数
-        int beforeDay = 30;
-
-        Calendar no = Calendar.getInstance();
-        no.setTime(date);
-        no.set(Calendar.DATE, no.get(Calendar.DATE) - beforeDay);
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String format = simpleDateFormat.format(no.getTime());
-        System.out.println(format);
+        ImageUtil imageUtil = new ImageUtil();
+        try {
+            imageUtil.zoomImageScale(file, newFilePath, 500, 300);
+        }catch (IOException e){
+            System.out.println("压缩错误");
+        }
+        System.out.println("压缩成功");
     }
 }

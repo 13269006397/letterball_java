@@ -32,6 +32,9 @@ public class ExcelDataJY {
     // 5. row.getCell(?) 获得行中某列数据
     // 6. getStringValue 提取列中数据
     // 7.按业务做数据校验
+
+    // 将数据按ABCD+数字作为key 组装进map
+    // 根据获取到需要校验的key 获取value进行校验
     @PostMapping("/readExcel")
     public HashMap readExcel(MultipartFile file) {
         Workbook workbook = null;
