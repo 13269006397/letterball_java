@@ -3,16 +3,10 @@ package com.letterball.utils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.xml.crypto.Data;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -94,12 +88,34 @@ public class AppTest {
         System.err.println(URLDecoder.decode(name));
     }
 
+    /**
+     * 时间格式化
+     */
     @Test
     public void DateTest(){
         Date date = new Date();
         System.err.println(date);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
         String format = simpleDateFormat.format(date);
+        System.out.println(format);
+    }
+
+
+    /**
+     * 得到几天前的时间
+     */
+    @Test
+    public void getDateBefore(){
+        Date date = new Date();
+        // 往前推的时间天数
+        int beforeDay = 30;
+
+        Calendar no = Calendar.getInstance();
+        no.setTime(date);
+        no.set(Calendar.DATE, no.get(Calendar.DATE) - beforeDay);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = simpleDateFormat.format(no.getTime());
         System.out.println(format);
     }
 }
