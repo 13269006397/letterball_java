@@ -1,4 +1,6 @@
 package com.letterball.utils;
+import org.junit.Test;
+
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -249,6 +251,7 @@ public class DateUtils {
             return calendar.getTime();
         }
 
+        // 获得某月的第一天
         public static Date getFirstDayOfMonth(Date thisDay) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(thisDay);
@@ -265,6 +268,7 @@ public class DateUtils {
             return getPreviousDate(calendar.getTime());
         }
 
+        // 获得某月的最后一天
         public static Date getLastDayOfMonth(Date thisDay) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(thisDay);
@@ -823,5 +827,24 @@ public class DateUtils {
                 return "";
             }
         }
+
+    /**
+     * 得到几天前的 字符型时间
+     */
+    public String getDateBefore(int day){
+        Date date = new Date();
+        // 往前推的时间天数
+        int beforeDay = day;
+
+        Calendar no = Calendar.getInstance();
+        no.setTime(date);
+        no.set(Calendar.DATE, no.get(Calendar.DATE) - beforeDay);
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+        String format = simpleDateFormat.format(no.getTime());
+        return format;
+    }
+
+
     }
 
